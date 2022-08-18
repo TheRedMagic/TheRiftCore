@@ -56,15 +56,12 @@ public class VerifyCommand implements CommandExecutor {
         code.setClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, numder.toString()));
 
         TextComponent Start = new TextComponent("§7§l▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n\n" +
-                "§r§6Use this code is #verify by using /verify.\nCode : ");
+                "§r§6Use this code in #bot-commands by using /verify.\nCode : ");
         TextComponent End = new TextComponent("\n\n§7§l▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬");
         Start.addExtra(code);
         Start.addExtra(End);
 
         player.spigot().sendMessage(Start);
-
-
-
     }
 }
 

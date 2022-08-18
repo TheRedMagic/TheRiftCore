@@ -54,6 +54,8 @@ public class DiscordVerifyCommand {
                             } catch (SQLException e) {
                                 throw new RuntimeException(e);
                             }
+
+
                         EmbedBuilder embedBuilder = new EmbedBuilder().setColor(Color.green).setAuthor("TheRift").setTitle("This your account?").setDescription("Username : " + event.getOption("username").getAsString() + "\nFirst join date : " + date);
                         event.getHook().sendMessageEmbeds(embedBuilder.build()).addActionRow(Button.success("Yes", "Yes"), Button.danger("No", "No")).queue();
                         stringHashMap.put(event.getMember().getId(), event.getOption("username").getAsString());
@@ -96,7 +98,8 @@ public class DiscordVerifyCommand {
                             ps1.setString(1, event.getMember().getUser().getName());
                             ps1.setString(2, String.valueOf(target.getUniqueId()));
                             ps1.executeUpdate();
-
+                            Guild guild = event.getGuild();
+                            guild.addRoleToMember(event.getMember(), event.getJDA().getRoleById("1009864792443453530")).complete();
                             target.sendMessage(ChatColor.GRAY.toString() + ChatColor.BOLD + "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n\n" +
                                      ChatColor.RESET + ChatColor.GOLD + "\n\nDiscord account linked!" + ChatColor.GRAY.toString() + ChatColor.BOLD +
                                     "\n\n▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬");

@@ -6,6 +6,7 @@ import com.therift.theriftcore.Database.PlayerManager;
 import com.therift.theriftcore.Database.ResetDataCommand;
 import com.therift.theriftcore.Database.database;
 import com.therift.theriftcore.Discord.DiscordListener;
+import com.therift.theriftcore.Discord.DiscordVerify;
 import com.therift.theriftcore.Discord.VerifyCommand;
 import com.therift.theriftcore.Discord.WelcomeMessage;
 import com.therift.theriftcore.MainCommands.SpawnCommand;
@@ -27,6 +28,7 @@ public final class Main extends JavaPlugin {
     private DiscordListener discordListener;
     private VerifyCommand verifyCommand;
     private WelcomeMessage welcomeMessage;
+    private DiscordVerify discordVerify;
 
 
 
@@ -65,6 +67,7 @@ public final class Main extends JavaPlugin {
         verifyCommand = new VerifyCommand(this);
         discordListener.main();
         welcomeMessage = new WelcomeMessage(this);
+        discordVerify = new DiscordVerify(this);
 
     }
 

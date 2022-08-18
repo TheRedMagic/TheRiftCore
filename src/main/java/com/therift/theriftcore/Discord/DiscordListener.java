@@ -28,14 +28,14 @@ public class DiscordListener extends ListenerAdapter {
     private Main main;
     private JDA jda;
     private DiscordVerifyCommand discordVerifyCommand;
+    private DiscordVerify discordVerify;
     private List<String> id = new ArrayList<>();
     public DiscordListener(Main main){
         this.main = main;
+        discordVerify = new DiscordVerify(main);
         discordVerifyCommand = new DiscordVerifyCommand(main);
 
     }
-
-
     public void main()
     {
 
@@ -57,18 +57,15 @@ public class DiscordListener extends ListenerAdapter {
     public void onReady(ReadyEvent event){
         Guild guild = event.getJDA().getGuildById(main.getConfig().getString("GuildID"));
         discordVerifyCommand.VerifyReadyCommand(guild);
+        discordVerify.Verify(event);
     }
-
     @Override
-    public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event){
-         id = discordVerifyCommand.VerifyCommand(event);
-    }
-
+    public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event){id = discordVerifyCommand.VerifyCommand(event);}
     @Override
     public void onButtonInteraction(ButtonInteractionEvent event){
         discordVerifyCommand.ButtonVerify(event, id);
+        discordVerify.ButtonVerify(event);
     }
     @Override
     public void onGuildMemberJoin(GuildMemberJoinEvent event){main.getWelcomeMessage().onJoin(event);}
-
 }
