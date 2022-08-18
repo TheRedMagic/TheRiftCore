@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.ReadyEvent;
+import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -67,5 +68,7 @@ public class DiscordListener extends ListenerAdapter {
     public void onButtonInteraction(ButtonInteractionEvent event){
         discordVerifyCommand.ButtonVerify(event, id);
     }
+    @Override
+    public void onGuildMemberJoin(GuildMemberJoinEvent event){main.getWelcomeMessage().onJoin(event);}
 
 }

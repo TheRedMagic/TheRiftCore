@@ -7,6 +7,7 @@ import com.therift.theriftcore.Database.ResetDataCommand;
 import com.therift.theriftcore.Database.database;
 import com.therift.theriftcore.Discord.DiscordListener;
 import com.therift.theriftcore.Discord.VerifyCommand;
+import com.therift.theriftcore.Discord.WelcomeMessage;
 import com.therift.theriftcore.MainCommands.SpawnCommand;
 import com.therift.theriftcore.StaffSystem.AllPlayersCommand;
 import org.bukkit.Bukkit;
@@ -14,7 +15,6 @@ import org.bukkit.Server;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
-import javax.security.auth.login.LoginException;
 
 public final class Main extends JavaPlugin {
 
@@ -26,6 +26,7 @@ public final class Main extends JavaPlugin {
     private CoreListener coreListener;
     private DiscordListener discordListener;
     private VerifyCommand verifyCommand;
+    private WelcomeMessage welcomeMessage;
 
 
 
@@ -63,6 +64,7 @@ public final class Main extends JavaPlugin {
         discordListener = new DiscordListener(this);
         verifyCommand = new VerifyCommand(this);
         discordListener.main();
+        welcomeMessage = new WelcomeMessage(this);
 
     }
 
@@ -80,4 +82,5 @@ public final class Main extends JavaPlugin {
     public DatabaseConfig getDatabaseConfig(){return databaseConfig;}
     public database getDatabase(){return database;}
     public PlayerManager getPlayerManager() {return playerManager;}
+    public WelcomeMessage getWelcomeMessage() {return  welcomeMessage;}
 }
