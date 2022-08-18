@@ -16,12 +16,10 @@ public class DiscordVerify {
         this.main = main;
     }
 
-    public void Verify(ReadyEvent event){
-
-        Guild guild = event.getJDA().getGuildById(main.getConfig().getString("GuildID"));
+    public void Verify(Guild guild){
         if (guild.getTextChannelById(main.getConfig().getString("DCVerify-Channel-ID")).getHistory().isEmpty()) {
             EmbedBuilder embedBuilder = new EmbedBuilder().setColor(Color.green).setAuthor("TheRift").setTitle("Verify").setDescription("Click the button to verify");
-            Channel channel = (Channel) guild.getTextChannelById(main.getConfig().getString("DCVerify-Channel-ID")).sendMessageEmbeds(embedBuilder.build()).setActionRow(Button.success("verify", "Verify"));
+            guild.getTextChannelById(main.getConfig().getString("DCVerify-Channel-ID")).sendMessageEmbeds(embedBuilder.build()).setActionRow(Button.success("verify", "Verify"));
         }
     }
 

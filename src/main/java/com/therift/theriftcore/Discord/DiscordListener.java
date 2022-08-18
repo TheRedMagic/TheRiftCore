@@ -57,7 +57,7 @@ public class DiscordListener extends ListenerAdapter {
     public void onReady(ReadyEvent event){
         Guild guild = event.getJDA().getGuildById(main.getConfig().getString("GuildID"));
         discordVerifyCommand.VerifyReadyCommand(guild);
-        discordVerify.Verify(event);
+        discordVerify.Verify(guild);
     }
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event){id = discordVerifyCommand.VerifyCommand(event);}
