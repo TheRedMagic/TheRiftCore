@@ -1,20 +1,24 @@
 package com.therift.theriftcore;
 
 import com.therift.theriftcore.Core.CoreListener;
-import com.therift.theriftcore.Database.DatabaseConfig;
-import com.therift.theriftcore.Database.PlayerManager;
-import com.therift.theriftcore.Database.ResetDataCommand;
-import com.therift.theriftcore.Database.database;
-import com.therift.theriftcore.Discord.DiscordListener;
-import com.therift.theriftcore.Discord.DiscordVerify;
-import com.therift.theriftcore.Discord.VerifyCommand;
-import com.therift.theriftcore.Discord.WelcomeMessage;
+import com.therift.theriftcore.Core.GlobalChat;
+import com.therift.theriftcore.Core.LuckPermListener;
+import com.therift.theriftcore.Database.*;
+import com.therift.theriftcore.Discord.*;
+import com.therift.theriftcore.Discord.Commands.UserCommands.VerifyCommand;
+import com.therift.theriftcore.Discord.DiscordUntils.DiscordVerify;
+import com.therift.theriftcore.Discord.DiscordUntils.Roles;
+import com.therift.theriftcore.Discord.DiscordUntils.WelcomeMessage;
 import com.therift.theriftcore.MainCommands.SpawnCommand;
 import com.therift.theriftcore.StaffSystem.AllPlayersCommand;
+import com.therift.theriftcore.StaffSystem.StaffMenu.ReportSystem.ReportCommand;
+import com.therift.theriftcore.StaffSystem.StaffMenu.ReportSystem.ReportListener;
+import com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem.*;
+import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.plugin.messaging.PluginMessageListener;
 
 
 public final class Main extends JavaPlugin {
@@ -29,6 +33,9 @@ public final class Main extends JavaPlugin {
     private VerifyCommand verifyCommand;
     private WelcomeMessage welcomeMessage;
     private DiscordVerify discordVerify;
+    private LuckPerms api;
+    private Roles roles;
+
 
 
 
@@ -38,6 +45,9 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
+
+
+
         //Databases
         databaseConfig = new DatabaseConfig(this);
         database = new database(this);
@@ -47,20 +57,37 @@ public final class Main extends JavaPlugin {
         server = getServer();
 
 
-        //Core
-        coreListener = new CoreListener(this);
 
         //Commands
         getCommand("AllPlayers").setExecutor(new AllPlayersCommand(this));
         getCommand("Spawn").setExecutor(new SpawnCommand(this));
         getCommand("ResetData").setExecutor(new ResetDataCommand(this));
+        getCommand("ResetData").setTabCompleter(new ResetDataTab(this));
         getCommand("Verify").setExecutor(new VerifyCommand(this));
+        getCommand("Staff").setExecutor(new StaffCommand(this));
+        getCommand("Unban").setExecutor(new unbanCommand(this));
+        getCommand("Unban").setTabCompleter(new UnBanTab(this));
+        getCommand("Pardon").setExecutor(new pardonCommand(this));
+        getCommand("Pardon").setTabCompleter(new UnBanTab(this));
+        getCommand("Report").setExecutor(new ReportCommand(this));
+        getCommand("Ban").setExecutor(new BanCommand(this));
+        getCommand("Ban").setTabCompleter(new BanCommandTab(this));
+        getCommand("Warn").setExecutor(new WarmCommand(this));
+        getCommand("Warn").setTabCompleter(new WarnCommandTab(this));
+        getCommand("Kick").setExecutor(new KickCommand(this));
+        getCommand("Kick").setTabCompleter(new KickCommandTab(this));
+        getCommand("Mute").setExecutor(new MuteCommand(this));
+        getCommand("Mute").setTabCompleter(new MuteCommandTab(this));
+        getCommand("ChatMute").setExecutor(new ChatMuteCommand());
 
 
         //Listener
         Bukkit.getPluginManager().registerEvents(new CoreListener(this), this);
-        this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", (PluginMessageListener) new CoreListener(this));
-        this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+        Bukkit.getPluginManager().registerEvents(new StaffListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new ReportListener(), this);
+        getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new GlobalChat(this));
+        getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new ResetDataCommand(this));
+        getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
         //Discord
         discordListener = new DiscordListener(this);
@@ -68,6 +95,13 @@ public final class Main extends JavaPlugin {
         discordListener.main();
         welcomeMessage = new WelcomeMessage(this);
         discordVerify = new DiscordVerify(this);
+
+
+        RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
+        if (provider != null) {
+            api = provider.getProvider();
+            new LuckPermListener(this, api);
+        }
 
     }
 
@@ -86,4 +120,5 @@ public final class Main extends JavaPlugin {
     public database getDatabase(){return database;}
     public PlayerManager getPlayerManager() {return playerManager;}
     public WelcomeMessage getWelcomeMessage() {return  welcomeMessage;}
+    public LuckPerms getApi() { return api;}
 }

@@ -23,7 +23,7 @@ public class SpawnCommand implements CommandExecutor{
         if (sender instanceof Player){
             Player player = (Player) sender;
             spawnLocation = new Location(player.getWorld(), main.getConfig().getInt("X"), main.getConfig().getInt("Y"), main.getConfig().getInt("Z"));
-            if (player.getWorld() == Bukkit.getWorld("Spawn")){
+            if (!player.getWorld().getName().equals("Spawn")){
 
                 ByteArrayDataOutput out = ByteStreams.newDataOutput();
                 out.writeUTF("Connect");
@@ -31,9 +31,11 @@ public class SpawnCommand implements CommandExecutor{
                 player.sendMessage(ChatColor.GREEN + "Connecting to spawn...");
                 player.sendPluginMessage(main, "BungeeCord", out.toByteArray());
                 player.teleport(spawnLocation);
+                player.sendMessage(ChatColor.GREEN + "Teleported to spawn");
 
             }else {
                 player.teleport(spawnLocation);
+                player.sendMessage(ChatColor.GREEN + "Teleported to spawn");
             }
         }
         return false;

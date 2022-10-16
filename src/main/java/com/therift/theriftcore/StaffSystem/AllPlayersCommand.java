@@ -27,7 +27,7 @@ public class AllPlayersCommand implements CommandExecutor {
             if (player.hasPermission("therift.allplayers")) {
                 Player target;
 
-                OnlinePlayers = main.getPlayerManager().getOnlineList();
+                OnlinePlayers = main.getPlayerManager().getOnlineResultset();
 
                 try {
                     player.sendMessage(ChatColor.GRAY.toString() + ChatColor.BOLD + "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬");

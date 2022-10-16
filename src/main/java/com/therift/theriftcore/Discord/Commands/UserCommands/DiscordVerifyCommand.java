@@ -1,8 +1,7 @@
-package com.therift.theriftcore.Discord;
+package com.therift.theriftcore.Discord.Commands.UserCommands;
 
 import com.therift.theriftcore.Main;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -15,7 +14,6 @@ import org.bukkit.entity.Player;
 
 import java.awt.*;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,32 +41,30 @@ public class DiscordVerifyCommand {
     public List<String> VerifyCommand(SlashCommandInteractionEvent event){
         if (event.getName().equals("verify")){
             if (event.getChannel().getId().equals(main.getConfig().getString("Verify-Channel-ID"))){
-                event.deferReply().queue();
-                if (VerifyCommand.VerifyCode.containsKey(event.getOption("username").getAsString())){
-                    if (VerifyCommand.VerifyCode.get(event.getOption("username").getAsString()).equals(event.getOption("code").getAsInt())){
-                            try {
-                                ResultSet resultSet = main.getPlayerManager().getPlayerJoinDate(Bukkit.getPlayer(event.getOption("username").getAsString()).getUniqueId().toString());
-                                while (resultSet.next()){
-                                    date = resultSet.getDate("FirstJoinDate");
-                                }
-                            } catch (SQLException e) {
-                                throw new RuntimeException(e);
-                            }
+                String server = main.getPlayerManager().getServer(event.getOption("username").getAsString());
+                if (server.equals("Spawn")) {
+                    event.deferReply().queue();
+                    if (VerifyCommand.VerifyCode.containsKey(event.getOption("username").getAsString())) {
+                        if (VerifyCommand.VerifyCode.get(event.getOption("username").getAsString()).equals(event.getOption("code").getAsInt())) {
+                            date = main.getPlayerManager().getPlayerJoinDate(Bukkit.getPlayer(event.getOption("username").getAsString()).getUniqueId().toString());
 
 
-                        EmbedBuilder embedBuilder = new EmbedBuilder().setColor(Color.green).setAuthor("TheRift").setTitle("This your account?").setDescription("Username : " + event.getOption("username").getAsString() + "\nFirst join date : " + date);
-                        event.getHook().sendMessageEmbeds(embedBuilder.build()).addActionRow(Button.success("Yes", "Yes"), Button.danger("No", "No")).queue();
-                        stringHashMap.put(event.getMember().getId(), event.getOption("username").getAsString());
-                        a.add(event.getMember().getId());
-                        return a;
-                    }else {
-                        MessageEmbed embedBuilder = new EmbedBuilder().setColor(Color.RED).setAuthor("TheRift").setTitle("Can't Find Code").setDescription("Try again").build();
+                            EmbedBuilder embedBuilder = new EmbedBuilder().setColor(Color.green).setAuthor("TheRift").setTitle("This your account?").setDescription("Username : " + event.getOption("username").getAsString() + "\nFirst join date : " + date);
+                            event.getHook().sendMessageEmbeds(embedBuilder.build()).addActionRow(Button.success("Yes", "Yes"), Button.danger("No", "No")).queue();
+                            stringHashMap.put(event.getMember().getId(), event.getOption("username").getAsString());
+                            a.add(event.getMember().getId());
+                            return a;
+                        } else {
+                            MessageEmbed embedBuilder = new EmbedBuilder().setColor(Color.RED).setAuthor("TheRift").setTitle("Can't Find Code").setDescription("Try again").build();
+                            event.getHook().sendMessageEmbeds(embedBuilder).queue();
+                            return null;
+                        }
+                    } else {
+                        MessageEmbed embedBuilder = new EmbedBuilder().setColor(Color.RED).setAuthor("TheRift").setTitle("Can't Find Player").setDescription("Try again").build();
                         event.getHook().sendMessageEmbeds(embedBuilder).queue();
                         return null;
                     }
-                }else{
-                    MessageEmbed embedBuilder = new EmbedBuilder().setColor(Color.RED).setAuthor("TheRift").setTitle("Can't Find Player").setDescription("Try again").build();
-                    event.getHook().sendMessageEmbeds(embedBuilder).queue();
+                }else {
                     return null;
                 }
             } else {
@@ -101,7 +97,7 @@ public class DiscordVerifyCommand {
                             Guild guild = event.getGuild();
                             guild.addRoleToMember(event.getMember(), event.getJDA().getRoleById("1009864792443453530")).complete();
                             target.sendMessage(ChatColor.GRAY.toString() + ChatColor.BOLD + "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n\n" +
-                                     ChatColor.RESET + ChatColor.GOLD + "\n\nDiscord account linked!" + ChatColor.GRAY.toString() + ChatColor.BOLD +
+                                     ChatColor.RESET + ChatColor.GOLD + "\nDiscord account linked!" + ChatColor.GRAY.toString() + ChatColor.BOLD +
                                     "\n\n▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬");
 
                             VerifyCommand.VerifyCode.remove(target.getDisplayName());

@@ -1,10 +1,11 @@
-package com.therift.theriftcore.Discord;
+package com.therift.theriftcore.Discord.Commands.UserCommands;
 
 import com.therift.theriftcore.Main;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -26,24 +27,28 @@ public class VerifyCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player){
+            if (((Player) sender).getWorld().getName().equals("Spawn")) {
 
-            Player player = (Player) sender;
-            if (VerifyCode.containsValue(player.getDisplayName())){
-                VerifyCode.remove(player.getDisplayName());
-                Random rnd = new Random();
-                int number = rnd.nextInt(10000);
+                Player player = (Player) sender;
+                if (VerifyCode.containsValue(player.getDisplayName())) {
+                    VerifyCode.remove(player.getDisplayName());
+                    Random rnd = new Random();
+                    int number = rnd.nextInt(10000);
 
 
-                CodeMessage(number, player);
-                VerifyCode.put(player.getDisplayName(), number);
+                    CodeMessage(number, player);
+                    VerifyCode.put(player.getDisplayName(), number);
+                } else {
+                    Random rnd = new Random();
+                    int number = rnd.nextInt(10000);
+
+                    CodeMessage(number, player);
+                    VerifyCode.put(player.getDisplayName(), number);
+
+
+                }
             }else {
-                Random rnd = new Random();
-                int number = rnd.nextInt(10000);
-
-                CodeMessage(number, player);
-                VerifyCode.put(player.getDisplayName(), number);
-
-                
+                System.out.println(ChatColor.RED + "Must be is spawn");
             }
         }
         return false;

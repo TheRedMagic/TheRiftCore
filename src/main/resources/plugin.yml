@@ -4,6 +4,7 @@ main: com.therift.theriftcore.Main
 api-version: 1.19
 authors: [ TheRiftt ]
 description: The Core Plugin for the RiftNetWork
+depend: [LuckPerms]
 commands:
   allPlayers:
     permission: "therift.allplayers"
@@ -11,3 +12,21 @@ commands:
   resetdata:
     permission: "therift.resetdata"
   verify:
+  staff:
+    permission: "therift.staff"
+  unban:
+    permission: "therift.unban"
+  report:
+  ban:
+    permission: "therift.ban"
+  warn:
+    permission: "therift.warn"
+  kick:
+    permission: "therift.kick"
+  mute:
+    permission: "therift.mute"
+  pardon:
+    permission: "therift.unban"
+  chatmute:
+    permission: "therift.chatmute"
+

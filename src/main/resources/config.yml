@@ -15,4 +15,15 @@ Verify-Channel-ID: ''
 GuildID: ''
 welcome-Channel: ''
 DCVerify-Channel-ID: ''
+RulesChannel: ''
+PunishLogId: ''
+ReportLogId: ''
+ReportChannelID: ''
+RolesID: ''
 
+#Swear List
+Bad-word:
+  - 'fuck'
+
+Delete-Words:
+  - 'niggar'

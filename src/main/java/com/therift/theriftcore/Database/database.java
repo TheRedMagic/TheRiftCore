@@ -1,6 +1,7 @@
 package com.therift.theriftcore.Database;
 
 import com.therift.theriftcore.Main;
+import org.bukkit.Bukkit;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -19,15 +20,18 @@ public class database {
     public void connect(){
         this.main = main;
 
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(main, () -> {
+            try {
+                connection = DriverManager.getConnection("jdbc:mysql://" + main.getDatabaseConfig().getHost() + ":" + main.getDatabaseConfig().getPort() + "/" + main.getDatabaseConfig().getUsername() + "?autoReconnect=true",
+                        main.getDatabaseConfig().getUsername(),
+                        main.getDatabaseConfig().getPassword());
+                connection.prepareStatement("SET SESSION idle_transaction_timeout=0;");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            System.out.print("Connect to database");
+        }, 0, 432000);
 
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://" + main.getDatabaseConfig().getHost() + ":" + main.getDatabaseConfig().getPort() + "/" + main.getDatabaseConfig().getUsername() + "?autoReconnect=true",
-                    main.getDatabaseConfig().getUsername(),
-                    main.getDatabaseConfig().getPassword());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        System.out.print("Connect to database");
     }
 
     public boolean isConnected(){return connection != null;}
