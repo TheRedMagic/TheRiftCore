@@ -1,5 +1,6 @@
 package com.therift.theriftcore.Discord;
 
+import com.therift.theriftcore.Database.RiftPlayer;
 import com.therift.theriftcore.Discord.Commands.StaffCommands.*;
 import com.therift.theriftcore.Discord.Commands.UserCommands.DiscordVerifyCommand;
 import com.therift.theriftcore.Discord.Commands.UserCommands.SuggestionsCommand;
@@ -28,6 +29,7 @@ import java.awt.*;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class DiscordListener extends ListenerAdapter {
     private Main main;
@@ -119,6 +121,7 @@ public class DiscordListener extends ListenerAdapter {
             }
 
             antiSwear.antiSwear(e);
+
         }
     }
     @Override
@@ -155,4 +158,6 @@ public class DiscordListener extends ListenerAdapter {
             textChannel.sendMessageEmbeds(embedBuilder.build()).queue();
         }
     }
+
+    //TEst
 }

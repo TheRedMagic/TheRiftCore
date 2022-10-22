@@ -16,9 +16,12 @@ import com.therift.theriftcore.StaffSystem.StaffMenu.ReportSystem.ReportListener
 import com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem.*;
 import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.UUID;
 
 
 public final class Main extends JavaPlugin {
@@ -35,6 +38,7 @@ public final class Main extends JavaPlugin {
     private DiscordVerify discordVerify;
     private LuckPerms api;
     private Roles roles;
+    public static Main main;
 
 
 
@@ -46,8 +50,6 @@ public final class Main extends JavaPlugin {
     @Override
     public void onEnable() {
 
-
-
         //Databases
         databaseConfig = new DatabaseConfig(this);
         database = new database(this);
@@ -55,6 +57,7 @@ public final class Main extends JavaPlugin {
         playerManager = new PlayerManager(this);
         database.connect();
         server = getServer();
+        main = this;
 
 
 
@@ -95,7 +98,6 @@ public final class Main extends JavaPlugin {
         discordListener.main();
         welcomeMessage = new WelcomeMessage(this);
         discordVerify = new DiscordVerify(this);
-
 
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
         if (provider != null) {
