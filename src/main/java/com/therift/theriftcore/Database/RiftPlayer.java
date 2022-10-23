@@ -34,7 +34,7 @@ public class RiftPlayer {
             System.out.println("RiftPlayer Main Class Null");
             return;
         }
-        if (Bukkit.getOfflinePlayer(uuid) != null) {
+        if (Bukkit.getOfflinePlayer(uuid).isOnline() && Bukkit.getOfflinePlayer(uuid) != null) {
             this.player = Bukkit.getOfflinePlayer(uuid);
             return;
         }
@@ -69,35 +69,29 @@ public class RiftPlayer {
         }
         return null;
     }
-    //public World getWorld(){return world;}
+    public World getWorld(){if (player.isOnline())
+    {
+        return player.getPlayer().getWorld();
+    }
+    return null;
+    }
+    public Material getStandingBlock(){
+        if (player.isOnline()){
+            Player player1 = player.getPlayer();
+            return player1.getLocation().subtract(0, 1, 0).getBlock().getType();
+        }
+        return null;
+    }
     public void addPotionEffect(PotionEffect effect){
         if (player.isOnline()) {
             player.getPlayer().addPotionEffect(effect);
         }
     }
     public String getRank(){
-        try {
-            PreparedStatement ps = main.getDatabase().getConnection().prepareStatement("SELECT Rank FROM PlayerData WHERE UUID = ?");
-            ps.setString(1, uuid.toString());
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()){
-                return rs.getString("Rank");
-            }
-        }catch (SQLException e){
-            throw new RuntimeException(e);
-        }
-        return null;
+        return main.getApi().getUserManager().getUser(uuid).getPrimaryGroup();
     }
     public void setRank(String rank){
-        try {
-            PreparedStatement ps = main.getDatabase().getConnection().prepareStatement("UPDATE PlayerData SET Rank = ? WHERE UUID = ?");
-            ps.setString(1, rank);
-            ps.setString(2, uuid.toString());
-            ps.executeUpdate();
-
-        }catch (SQLException e){
-            throw new RuntimeException(e);
-        }
+        main.getApi().getUserManager().getUser(uuid).setPrimaryGroup(rank);
     }
     public Boolean isDiscordLinked(){
         try {

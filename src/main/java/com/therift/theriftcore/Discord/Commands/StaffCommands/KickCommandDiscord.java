@@ -40,6 +40,14 @@ public class KickCommandDiscord {
                         .setDescription(user.getName() + " has been kicked");
                 e.getHook().sendMessageEmbeds(embedBuilder.build()).queue();
 
+                EmbedBuilder builder = new EmbedBuilder().setColor(Color.RED).setAuthor("TheRift")
+                        .setTitle("Kick")
+                        .setDescription("You are kicked by " + user.getName());
+
+                user.openPrivateChannel().complete()
+                        .sendMessageEmbeds(builder.build()).queue();
+
+
 
             }
         }

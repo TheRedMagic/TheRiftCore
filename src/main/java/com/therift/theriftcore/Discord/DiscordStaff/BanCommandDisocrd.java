@@ -42,6 +42,14 @@ public class BanCommandDisocrd {
                         .setDescription(user.getName() + " has been banned");
                 e.getHook().sendMessageEmbeds(embedBuilder.build()).queue();
 
+                EmbedBuilder builder = new EmbedBuilder().setColor(Color.RED).setAuthor("TheRift")
+                        .setTitle("Banned")
+                        .setDescription("You are banned by " + user.getName());
+
+                user.openPrivateChannel().complete()
+                        .sendMessageEmbeds(builder.build()).queue();
+
+
 
             }
         }

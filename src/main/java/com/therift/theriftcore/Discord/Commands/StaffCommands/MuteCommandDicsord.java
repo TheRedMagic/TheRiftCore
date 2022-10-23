@@ -36,7 +36,7 @@ public class MuteCommandDicsord {
                 TextChannel textChannel1 = e.getGuild().getTextChannelById("1012486403462012938");
                 EmbedBuilder embedBuilder1 = new EmbedBuilder().setColor(Color.green).setAuthor("TheRift")
                         .setTitle("Discord Mute")
-                                .setDescription(user.getName() + " has been muted in discord");
+                                .setDescription(user.getName() + " has been muted in discord by " + e.getUser().getName());
                 textChannel1.sendMessageEmbeds(embedBuilder1.build()).queue();
 
                 e.deferReply(true).queue();
@@ -45,7 +45,12 @@ public class MuteCommandDicsord {
                         .setDescription(user.getName() + " has been muted");
                 e.getHook().sendMessageEmbeds(embedBuilder.build()).queue();
 
+                EmbedBuilder builder = new EmbedBuilder().setColor(Color.RED).setAuthor("TheRift")
+                        .setTitle("Mute")
+                        .setDescription("You are muted by " + user.getName());
 
+                user.openPrivateChannel().complete()
+                        .sendMessageEmbeds(builder.build()).queue();
             }
         }
     }
