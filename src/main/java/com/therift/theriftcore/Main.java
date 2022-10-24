@@ -9,6 +9,7 @@ import com.therift.theriftcore.Discord.Commands.UserCommands.VerifyCommand;
 import com.therift.theriftcore.Discord.DiscordUntils.DiscordVerify;
 import com.therift.theriftcore.Discord.DiscordUntils.Roles;
 import com.therift.theriftcore.Discord.DiscordUntils.WelcomeMessage;
+import com.therift.theriftcore.Discord.Games.DiscordCounter;
 import com.therift.theriftcore.MainCommands.SpawnCommand;
 import com.therift.theriftcore.StaffSystem.AllPlayersCommand;
 import com.therift.theriftcore.StaffSystem.StaffMenu.ReportSystem.ReportCommand;
@@ -39,13 +40,7 @@ public final class Main extends JavaPlugin {
     private LuckPerms api;
     private Roles roles;
     public static Main main;
-
-
-
-
-    // Var
-    private Server server;
-
+    public static DiscordCounter discordCounter;
 
     @Override
     public void onEnable() {
@@ -56,8 +51,8 @@ public final class Main extends JavaPlugin {
         allPlayersCommand = new AllPlayersCommand(this);
         playerManager = new PlayerManager(this);
         database.connect();
-        server = getServer();
         main = this;
+
 
 
 
@@ -98,6 +93,7 @@ public final class Main extends JavaPlugin {
         discordListener.main();
         welcomeMessage = new WelcomeMessage(this);
         discordVerify = new DiscordVerify(this);
+        discordCounter = new DiscordCounter(this);
 
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
         if (provider != null) {
@@ -109,12 +105,18 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
+
+        if (discordCounter != null){
+            discordCounter.onDis();
+        }
+
         database.disconnect();
 
         this.getServer().getMessenger().unregisterOutgoingPluginChannel(this);
         this.getServer().getMessenger().unregisterIncomingPluginChannel(this);
 
         VerifyCommand.VerifyCode.clear();
+
 
     }
 
@@ -123,4 +125,7 @@ public final class Main extends JavaPlugin {
     public PlayerManager getPlayerManager() {return playerManager;}
     public WelcomeMessage getWelcomeMessage() {return  welcomeMessage;}
     public LuckPerms getApi() { return api;}
+    public RiftPlayer getRiftPlayer(UUID uuid){
+        return new RiftPlayer(uuid);
+    }
 }

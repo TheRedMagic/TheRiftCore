@@ -12,6 +12,8 @@ import org.bukkit.Bukkit;
 import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PunishHistory {
     private Main main;
@@ -32,24 +34,19 @@ public class PunishHistory {
             if (e.getName().equals("punish-history")){
                 try {
                     ResultSet rs = main.getPlayerManager().getDiscordPunishHistory(e.getOption("user").getAsUser().getId());
+
                     EmbedBuilder embedBuilder = new EmbedBuilder()
                             .setColor(Color.RED)
                             .setAuthor("TheRift")
                             .setTitle("Punish History")
-                            .setDescription("Punish History : " + e.getOption("user").getAsUser().getAsMention() + "\n This is the discord **Punish History** from " + e.getOption("user").getAsUser().getAsMention());
-                    e.deferReply().queue();
-                    e.getHook().sendMessageEmbeds(embedBuilder.build()).queue();
+                            .setDescription("\n This is the discord **Punish History** from " + e.getOption("user").getAsUser().getAsMention() + "\n");
 
                     while (rs.next()){
-                        EmbedBuilder embedBuilder1 = new EmbedBuilder()
-                                .setColor(Color.RED)
-                                .setAuthor("TheRift")
-                                .setTitle(e.getOption("user").getAsUser().getName() + " Punish History")
-                                .setDescription("PunishType : " + rs.getString("PunishType")
-                                + "\nInfo : " + rs.getString("Info"));
-                        e.deferReply(true).queue();
-                        e.getHook().sendMessageEmbeds(embedBuilder1.build()).queue();
+                        embedBuilder.getDescriptionBuilder().append("\nPunish Type : " + rs.getString("PunishType") + "\nPunish Info : " + rs.getString("Info") + "\n");
                     }
+
+                    e.deferReply(true).queue();
+                    e.getHook().sendMessageEmbeds(embedBuilder.build()).queue();
                 } catch (SQLException es){
                     throw  new RuntimeException(es);
                 }
