@@ -4,10 +4,12 @@ import com.google.gson.Gson;
 import com.therift.theriftcore.Discord.DiscordListener;
 import com.therift.theriftcore.Main;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.bukkit.Bukkit;
 
@@ -18,10 +20,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 public class DiscordCounter {
     private Main main;
     private int count;
+    private int CountHighsource;
+    private User HighScoreUser;
 
 
     public DiscordCounter(Main main) {
@@ -42,17 +47,84 @@ public class DiscordCounter {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
+
+            try {
+                PreparedStatement ps = main.getDatabase().getConnection().prepareStatement("SELECT * FROM DiscordInfo WHERE InfoType = ?");
+                ps.setString(1, "HighScore");
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()){
+                    this.CountHighsource = Integer.valueOf(rs.getString("CountNumder"));
+                    if (rs.getString("LastCounted") != null) {
+                        this.HighScoreUser = DiscordListener.jda.getUserById(rs.getString("LastCounted"));
+                    }
+                }else {
+                    PreparedStatement ps1 = main.getDatabase().getConnection().prepareStatement("INSERT INTO DiscordInfo (InfoType, CountNumder) VALUES (?,?)");
+                    ps1.setString(1, "HighScore");
+                    ps1.setString(2, "0");
+                    ps1.executeUpdate();
+                }
+
+                HighScoreCommand(DiscordListener.jda.getGuildById("997076075509194795"));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+
         }, 20);
 
     }
 
+    public void HighScoreCommand(Guild guild){
+        guild.upsertCommand("count-high-score", "The biggest count in the server").queue();
+    }
+
+    public void onCommand(SlashCommandInteractionEvent e){
+        if (e.getName().equals("count-high-score")){
+            TextChannel textChannel = e.getGuild().getTextChannelById("1034220609909043230");
+            if (e.getChannel().equals(textChannel)){
+
+                String ID = null;
+
+                try{
+                    PreparedStatement ps = main.getDatabase().getConnection().prepareStatement("SELECT LastCounted FROM DiscordInfo WHERE InfoType = ?");
+                    ps.setString(1, "HighScore");
+                    ResultSet rs = ps.executeQuery();
+                    while (rs.next()){
+                        ID = rs.getString("LastCounted");
+                    }
+                }catch (SQLException e1){
+                    throw  new RuntimeException(e1);
+                }
+
+                User user = e.getGuild().getMemberById(ID).getUser();
+                e.deferReply().queue();
+                EmbedBuilder embedBuilder = new EmbedBuilder().setColor(Color.BLUE).setAuthor("TheRift")
+                        .setTitle("Count HighScore")
+                        .setDescription("Last counted by : " + user.getAsMention() + "\nNumber counted to : " + CountHighsource);
+                e.getHook().sendMessageEmbeds(embedBuilder.build()).queue();
+            }else {
+                EmbedBuilder embedBuilder = new EmbedBuilder().setColor(Color.RED).setAuthor("TheRift")
+                        .setTitle("Wrong Channel")
+                        .setDescription("Please use this command in #\uD83D\uDD22counting");
+                e.deferReply(true).queue();
+                e.getHook().sendMessageEmbeds(embedBuilder.build()).queue();
+            }
+        }
+    }
     public void onChat(MessageReceivedEvent e){
         TextChannel textChannel = e.getGuild().getTextChannelById("1034220609909043230");
         if (e.getChannel().equals(textChannel)){
 
-            String firstWord = e.getMessage().getContentRaw().split(" ")[0];
+            String firstWord;
+            if (e.getMessage().getContentRaw().contains(" ")) {
+                firstWord = e.getMessage().getContentRaw().split(" ")[0];
+            }else {
+                firstWord = e.getMessage().getContentRaw();
+            }
 
-            if (Integer.valueOf(firstWord) != null){
+            try {
+                int numder = Integer.parseInt(firstWord);
+
                 String name = null;
                 try {
                     PreparedStatement ps = main.getDatabase().getConnection().prepareStatement("SELECT LastCounted FROM DiscordInfo WHERE InfoType = ?");
@@ -76,7 +148,6 @@ public class DiscordCounter {
                     }
                 }
 
-                Integer numder = Integer.valueOf(firstWord);
 
                 if (numder == count+1){
                     e.getMessage().addReaction(Emoji.fromFormatted("\u2705")).queue();
@@ -92,14 +163,21 @@ public class DiscordCounter {
                         throw new RuntimeException(ex);
                     }
 
+                    if (count >= CountHighsource){
+                        CountHighsource = count;
+                        HighScoreUser = e.getMember().getUser();
+                    }
+
                 }else {
                     resetCount("**Wrong Number**", e.getMessage());
                 }
+
+            }catch (NumberFormatException e1){
+
             }
 
-        }
+            }
     }
-
     private void resetCount(String reason, Message message){
 
         count = 0;
@@ -134,6 +212,24 @@ public class DiscordCounter {
             ps1.setString(1, String.valueOf(count));
             ps1.setString(2, "Count");
             ps1.executeUpdate();
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+
+        try {
+            PreparedStatement ps12 = main.getDatabase().getConnection().prepareStatement("UPDATE DiscordInfo SET CountNumder = ? WHERE InfoType = ?");
+            ps12.setString(1, String.valueOf(CountHighsource));
+            ps12.setString(2, "HighScore");
+            ps12.executeUpdate();
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+
+        try {
+            PreparedStatement ps12 = main.getDatabase().getConnection().prepareStatement("UPDATE DiscordInfo SET LastCounted = ? WHERE InfoType = ?");
+            ps12.setString(1, HighScoreUser.getId());
+            ps12.setString(2, "HighScore");
+            ps12.executeUpdate();
         }catch (SQLException e){
             throw new RuntimeException(e);
         }

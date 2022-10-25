@@ -9,6 +9,7 @@ import com.therift.theriftcore.Discord.DiscordStaff.antiSwear;
 import com.therift.theriftcore.Discord.DiscordUntils.DiscordRules;
 import com.therift.theriftcore.Discord.DiscordUntils.DiscordVerify;
 import com.therift.theriftcore.Discord.DiscordUntils.Roles;
+import com.therift.theriftcore.Discord.Games.DiscordCounter;
 import com.therift.theriftcore.Main;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
@@ -112,7 +113,7 @@ public class DiscordListener extends ListenerAdapter {
     public void onMessageReceived(@NotNull MessageReceivedEvent e){
         if (Bukkit.getWorld("Spawn") != null) {
 
-            Main.discordCounter.onChat(e);
+            main.getDiscordCounter().onChat(e);
             TextChannel textChannel2 = e.getGuild().getTextChannelById("1018857837268574278");
             if (!textChannel2.equals(e.getChannel()) && !textChannel2.equals(e.getGuild().getTextChannelById("1018857686428823623")) && !textChannel2.equals(e.getGuild().getTextChannelById("1012486403462012938")) && !textChannel2.equals(e.getGuild().getTextChannelById("1012690050166829086"))) {
                 if (!e.getMember().getUser().getId().equals("1008045194375078031")) {
@@ -136,6 +137,7 @@ public class DiscordListener extends ListenerAdapter {
             banCommandDisocrd.ban(event);
             givewayCommand.giveaway(event);
             punishHistory.punishHistory(event);
+            main.getDiscordCounter().onCommand(event);
         }
     }
     @Override

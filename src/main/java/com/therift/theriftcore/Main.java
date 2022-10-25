@@ -40,7 +40,7 @@ public final class Main extends JavaPlugin {
     private LuckPerms api;
     private Roles roles;
     public static Main main;
-    public static DiscordCounter discordCounter;
+    private DiscordCounter discordCounter;
 
     @Override
     public void onEnable() {
@@ -121,6 +121,7 @@ public final class Main extends JavaPlugin {
     }
 
     public DatabaseConfig getDatabaseConfig(){return databaseConfig;}
+    public DiscordCounter getDiscordCounter(){return discordCounter;}
     public database getDatabase(){return database;}
     public PlayerManager getPlayerManager() {return playerManager;}
     public WelcomeMessage getWelcomeMessage() {return  welcomeMessage;}
