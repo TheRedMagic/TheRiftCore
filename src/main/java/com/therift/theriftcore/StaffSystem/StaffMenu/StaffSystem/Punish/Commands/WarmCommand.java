@@ -1,4 +1,4 @@
-package com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem;
+package com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem.Punish.Commands;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;

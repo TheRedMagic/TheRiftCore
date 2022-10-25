@@ -1,4 +1,4 @@
-package com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem;
+package com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem.Punish.CommandTabs;
 
 import com.therift.theriftcore.Main;
 import org.bukkit.command.Command;
@@ -11,9 +11,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MuteCommandTab implements TabCompleter {
+public class WarnCommandTab implements TabCompleter {
     private Main main;
-    public MuteCommandTab(Main main){
+    public WarnCommandTab(Main main){
         this.main = main;
     }
     @Nullable
@@ -21,10 +21,9 @@ public class MuteCommandTab implements TabCompleter {
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 1){
             List<String> names;
-            names = main.getPlayerManager().getAllPlayersList();
+            names = main.getPlayerManager().getOnlineList();
             return StringUtil.copyPartialMatches(args[0], names, new ArrayList<>());
         }
-
         return new ArrayList<>();
     }
 }

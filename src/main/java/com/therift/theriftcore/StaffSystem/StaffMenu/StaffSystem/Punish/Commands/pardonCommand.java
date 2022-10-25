@@ -1,4 +1,4 @@
-package com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem;
+package com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem.Punish.Commands;
 
 import com.therift.theriftcore.Main;
 import org.bukkit.Bukkit;

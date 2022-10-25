@@ -1,4 +1,4 @@
-package com.therift.theriftcore.Database;
+package com.therift.theriftcore.Database.DataBaseConnection;
 
 import com.therift.theriftcore.Main;
 import org.bukkit.Bukkit;
@@ -18,7 +18,6 @@ public class database {
     }
 
     public void connect(){
-        this.main = main;
 
         Bukkit.getScheduler().scheduleSyncRepeatingTask(main, () -> {
             try {

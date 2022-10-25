@@ -1,4 +1,4 @@
-package com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem;
+package com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem.StaffMode;
 
 import com.therift.theriftcore.Main;
 import org.bukkit.ChatColor;

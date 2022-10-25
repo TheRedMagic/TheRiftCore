@@ -1,10 +1,11 @@
-package com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem;
+package com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem.StaffMode;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import com.mojang.util.UUIDTypeAdapter;
 import com.therift.theriftcore.Core.TagTab;
 import com.therift.theriftcore.Main;
+import com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem.PageUtil;
 import net.luckperms.api.model.group.Group;
 import net.luckperms.api.model.user.User;
 import org.bukkit.*;

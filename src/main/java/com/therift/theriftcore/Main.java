@@ -3,7 +3,12 @@ package com.therift.theriftcore;
 import com.therift.theriftcore.Core.CoreListener;
 import com.therift.theriftcore.Core.GlobalChat;
 import com.therift.theriftcore.Core.LuckPermListener;
-import com.therift.theriftcore.Database.*;
+import com.therift.theriftcore.Database.DataBaseConnection.DatabaseConfig;
+import com.therift.theriftcore.Database.DataBaseConnection.database;
+import com.therift.theriftcore.Database.DatabaseCommands.ResetDataCommand;
+import com.therift.theriftcore.Database.DatabaseCommands.ResetDataTab;
+import com.therift.theriftcore.Database.DatabaseManager.PlayerManager;
+import com.therift.theriftcore.Database.DatabaseManager.RiftPlayer;
 import com.therift.theriftcore.Discord.*;
 import com.therift.theriftcore.Discord.Commands.UserCommands.VerifyCommand;
 import com.therift.theriftcore.Discord.DiscordUntils.DiscordVerify;
@@ -14,11 +19,12 @@ import com.therift.theriftcore.MainCommands.SpawnCommand;
 import com.therift.theriftcore.StaffSystem.AllPlayersCommand;
 import com.therift.theriftcore.StaffSystem.StaffMenu.ReportSystem.ReportCommand;
 import com.therift.theriftcore.StaffSystem.StaffMenu.ReportSystem.ReportListener;
-import com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem.*;
+import com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem.Punish.CommandTabs.*;
+import com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem.Punish.Commands.*;
+import com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem.StaffMode.StaffCommand;
+import com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem.StaffMode.StaffListener;
 import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Server;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -29,10 +35,9 @@ public final class Main extends JavaPlugin {
 
     //Calls
     private DatabaseConfig databaseConfig;
-    private database database;
+    private com.therift.theriftcore.Database.DataBaseConnection.database database;
     private AllPlayersCommand allPlayersCommand;
     private PlayerManager playerManager;
-    private CoreListener coreListener;
     private DiscordListener discordListener;
     private VerifyCommand verifyCommand;
     private WelcomeMessage welcomeMessage;

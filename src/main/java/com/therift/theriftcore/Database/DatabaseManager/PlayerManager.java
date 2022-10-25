@@ -1,4 +1,4 @@
-package com.therift.theriftcore.Database;
+package com.therift.theriftcore.Database.DatabaseManager;
 
 import com.mojang.util.UUIDTypeAdapter;
 import com.therift.theriftcore.Discord.DiscordListener;

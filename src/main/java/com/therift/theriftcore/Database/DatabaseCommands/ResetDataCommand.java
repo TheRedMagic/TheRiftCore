@@ -1,4 +1,4 @@
-package com.therift.theriftcore.Database;
+package com.therift.theriftcore.Database.DatabaseCommands;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;

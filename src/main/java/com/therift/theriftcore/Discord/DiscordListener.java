@@ -1,6 +1,5 @@
 package com.therift.theriftcore.Discord;
 
-import com.therift.theriftcore.Database.RiftPlayer;
 import com.therift.theriftcore.Discord.Commands.StaffCommands.*;
 import com.therift.theriftcore.Discord.Commands.UserCommands.DiscordVerifyCommand;
 import com.therift.theriftcore.Discord.Commands.UserCommands.SuggestionsCommand;
@@ -9,7 +8,6 @@ import com.therift.theriftcore.Discord.DiscordStaff.antiSwear;
 import com.therift.theriftcore.Discord.DiscordUntils.DiscordRules;
 import com.therift.theriftcore.Discord.DiscordUntils.DiscordVerify;
 import com.therift.theriftcore.Discord.DiscordUntils.Roles;
-import com.therift.theriftcore.Discord.Games.DiscordCounter;
 import com.therift.theriftcore.Main;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
@@ -30,7 +28,6 @@ import java.awt.*;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class DiscordListener extends ListenerAdapter {
     private Main main;

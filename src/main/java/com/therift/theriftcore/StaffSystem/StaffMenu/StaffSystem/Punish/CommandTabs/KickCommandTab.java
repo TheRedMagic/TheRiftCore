@@ -1,4 +1,4 @@
-package com.therift.theriftcore.Database;
+package com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem.Punish.CommandTabs;
 
 import com.therift.theriftcore.Main;
 import org.bukkit.command.Command;
@@ -8,28 +8,22 @@ import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class ResetDataTab implements TabCompleter {
+public class KickCommandTab implements TabCompleter {
     private Main main;
-
-    public ResetDataTab(Main main){
+    public KickCommandTab(Main main){
         this.main = main;
     }
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-
-
         if (args.length == 1){
             List<String> names;
-            names = main.getPlayerManager().getAllPlayersList();
+            names = main.getPlayerManager().getOnlineList();
             return StringUtil.copyPartialMatches(args[0], names, new ArrayList<>());
         }
-
         return new ArrayList<>();
     }
 }

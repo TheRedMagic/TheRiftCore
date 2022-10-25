@@ -4,8 +4,8 @@ import com.therift.theriftcore.Discord.DiscordListener;
 import com.therift.theriftcore.Discord.Commands.UserCommands.VerifyCommand;
 import com.therift.theriftcore.Main;
 import com.therift.theriftcore.StaffSystem.StaffMenu.ReportSystem.ReportManager;
-import com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem.ChatMuteCommand;
-import com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem.StaffManager;
+import com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem.Punish.Commands.ChatMuteCommand;
+import com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem.StaffMode.StaffManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.luckperms.api.model.user.User;
@@ -28,7 +28,6 @@ public class CoreListener implements Listener{
     public CoreListener(Main main){
         this.main = main;
         globalChat = new GlobalChat(main);
-        //serverTABList = new serverTABList(main);
         tagTab = new TagTab(main);
     }
     @EventHandler

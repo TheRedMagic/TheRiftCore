@@ -1,7 +1,8 @@
-package com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem;
+package com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem.Punish.Commands;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
+import com.mysql.cj.x.protobuf.MysqlxDatatypes;
 import com.therift.theriftcore.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,11 +13,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class KickCommand implements CommandExecutor {
+public class BanCommand implements CommandExecutor {
     private Main main;
-    public KickCommand(Main main){
+
+    public BanCommand(Main main){
         this.main = main;
     }
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player){
@@ -40,32 +43,26 @@ public class KickCommand implements CommandExecutor {
                     }
                     String reason = stringBuilder.toString();
 
-                    if (main.getPlayerManager().isPlayerOnline(target.getUniqueId())){
-                        main.getPlayerManager().addToPunishLog(target.getUniqueId().toString(), target.getName(), "Kick", reason, player.getDisplayName(), false);
+                    main.getPlayerManager().setBan(target.getUniqueId(), true);
+                    main.getPlayerManager().addToPunishLog(target.getUniqueId().toString(), target.getName(), "Ban", reason, player.getDisplayName(), true);
 
+                    player.sendMessage(ChatColor.GRAY.toString() + ChatColor.BOLD + "―――――――――――――――――――――\n" +
+                            ChatColor.RESET + ChatColor.GOLD + "Banned " + target.getName() +
+                            ChatColor.GRAY + ChatColor.BOLD + "―――――――――――――――――――――");
+
+                    if (main.getPlayerManager().isPlayerOnline(target.getUniqueId())){
                         ByteArrayDataOutput out = ByteStreams.newDataOutput();
                         out.writeUTF("KickPlayer");
                         out.writeUTF(target.getName());
-                        out.writeUTF(ChatColor.RED + "You have been kick\nReason : " + reason);
+                        out.writeUTF(ChatColor.RED + "You have been banned\nReason : " + reason);
                         player.sendPluginMessage(main, "BungeeCord", out.toByteArray());
-
-                        player.sendMessage(ChatColor.GRAY.toString() + ChatColor.BOLD + "―――――――――――――――――――――\n" +
-                                ChatColor.RESET + ChatColor.GOLD + target.getName() + "has been kicked"+
-                                ChatColor.GRAY + ChatColor.BOLD + "\n―――――――――――――――――――――");
-                    }else {
-                        player.sendMessage(ChatColor.GRAY.toString() + ChatColor.BOLD + "―――――――――――――――――――――\n" +
-                                ChatColor.RESET + ChatColor.RED + target.getName() + "not online"+
-                                ChatColor.GRAY + ChatColor.BOLD + "\n―――――――――――――――――――――");
                     }
+
                 } else {
                     player.sendMessage(ChatColor.GRAY.toString() + ChatColor.BOLD + "―――――――――――――――――――――\n" +
                             ChatColor.RESET + ChatColor.RED + "Can't find player" +
-                            ChatColor.GRAY + ChatColor.BOLD + "\n―――――――――――――――――――――");
+                            ChatColor.GRAY + ChatColor.BOLD + "―――――――――――――――――――――");
                 }
-            } else {
-                player.sendMessage(ChatColor.GRAY.toString() + ChatColor.BOLD + "―――――――――――――――――――――\n" +
-                        ChatColor.RESET + ChatColor.RED + "Invalid usage" +
-                        ChatColor.GRAY + ChatColor.BOLD + "\n―――――――――――――――――――――");
             }
         }
         return false;
