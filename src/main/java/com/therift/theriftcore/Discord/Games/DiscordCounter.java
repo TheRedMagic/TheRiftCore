@@ -26,7 +26,7 @@ public class DiscordCounter {
     private Main main;
     private int count;
     private int CountHighsource;
-    private User HighScoreUser;
+    private String ID = null;
 
 
     public DiscordCounter(Main main) {
@@ -55,7 +55,7 @@ public class DiscordCounter {
                 if (rs.next()){
                     this.CountHighsource = Integer.valueOf(rs.getString("CountNumder"));
                     if (rs.getString("LastCounted") != null) {
-                        this.HighScoreUser = DiscordListener.jda.getUserById(rs.getString("LastCounted"));
+                        this.ID = rs.getString("LastCounted");
                     }
                 }else {
                     PreparedStatement ps1 = main.getDatabase().getConnection().prepareStatement("INSERT INTO DiscordInfo (InfoType, CountNumder) VALUES (?,?)");
@@ -83,24 +83,11 @@ public class DiscordCounter {
             TextChannel textChannel = e.getGuild().getTextChannelById("1034220609909043230");
             if (e.getChannel().equals(textChannel)){
 
-                String ID = null;
 
-                try{
-                    PreparedStatement ps = main.getDatabase().getConnection().prepareStatement("SELECT LastCounted FROM DiscordInfo WHERE InfoType = ?");
-                    ps.setString(1, "HighScore");
-                    ResultSet rs = ps.executeQuery();
-                    while (rs.next()){
-                        ID = rs.getString("LastCounted");
-                    }
-                }catch (SQLException e1){
-                    throw  new RuntimeException(e1);
-                }
-
-                User user = e.getGuild().getMemberById(ID).getUser();
                 e.deferReply().queue();
                 EmbedBuilder embedBuilder = new EmbedBuilder().setColor(Color.BLUE).setAuthor("TheRift")
                         .setTitle("Count HighScore")
-                        .setDescription("Last counted by : " + user.getAsMention() + "\nNumber counted to : " + CountHighsource);
+                        .setDescription("Last counted by : " + ID + "\nNumber counted to : " + CountHighsource);
                 e.getHook().sendMessageEmbeds(embedBuilder.build()).queue();
             }else {
                 EmbedBuilder embedBuilder = new EmbedBuilder().setColor(Color.RED).setAuthor("TheRift")
@@ -153,7 +140,7 @@ public class DiscordCounter {
                     e.getMessage().addReaction(Emoji.fromFormatted("\u2705")).queue();
                     count++;
 
-                    PreparedStatement preparedStatement = null;
+                    PreparedStatement preparedStatement;
                     try {
                         preparedStatement = main.getDatabase().getConnection().prepareStatement("UPDATE DiscordInfo SET LastCounted = ? WHERE InfoType = ?");
                         preparedStatement.setString(1, e.getMember().getUser().getId());
@@ -165,7 +152,7 @@ public class DiscordCounter {
 
                     if (count >= CountHighsource){
                         CountHighsource = count;
-                        HighScoreUser = e.getMember().getUser();
+                        ID = e.getMember().getUser().getName();
                     }
 
                 }else {
@@ -227,7 +214,7 @@ public class DiscordCounter {
 
         try {
             PreparedStatement ps12 = main.getDatabase().getConnection().prepareStatement("UPDATE DiscordInfo SET LastCounted = ? WHERE InfoType = ?");
-            ps12.setString(1, HighScoreUser.getId());
+            ps12.setString(1, ID);
             ps12.setString(2, "HighScore");
             ps12.executeUpdate();
         }catch (SQLException e){
