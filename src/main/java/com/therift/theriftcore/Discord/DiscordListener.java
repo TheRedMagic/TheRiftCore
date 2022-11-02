@@ -98,6 +98,7 @@ public class DiscordListener extends ListenerAdapter {
         banCommandDisocrd.command(guild);
         givewayCommand.command(guild);
         punishHistory.command(guild);
+        main.userStats.command(guild);
 
         for (String s : main.getConfig().getStringList("Bad-word")){
             badWords.add(s);
@@ -109,7 +110,7 @@ public class DiscordListener extends ListenerAdapter {
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent e){
         if (Bukkit.getWorld("Spawn") != null) {
-
+            main.amountSend.onChat(e, e.getGuild());
             main.getDiscordCounter().onChat(e);
             TextChannel textChannel2 = e.getGuild().getTextChannelById("1018857837268574278");
             if (!textChannel2.equals(e.getChannel()) && !textChannel2.equals(e.getGuild().getTextChannelById("1018857686428823623")) && !textChannel2.equals(e.getGuild().getTextChannelById("1012486403462012938")) && !textChannel2.equals(e.getGuild().getTextChannelById("1012690050166829086"))) {
@@ -135,6 +136,7 @@ public class DiscordListener extends ListenerAdapter {
             givewayCommand.giveaway(event);
             punishHistory.punishHistory(event);
             main.getDiscordCounter().onCommand(event);
+            main.userStats.onSlash(event);
         }
     }
     @Override

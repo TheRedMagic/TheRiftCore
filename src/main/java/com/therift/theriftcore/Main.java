@@ -10,10 +10,11 @@ import com.therift.theriftcore.Database.DatabaseCommands.ResetDataTab;
 import com.therift.theriftcore.Database.DatabaseManager.PlayerManager;
 import com.therift.theriftcore.Database.DatabaseManager.RiftPlayer;
 import com.therift.theriftcore.Discord.*;
+import com.therift.theriftcore.Discord.Commands.UserCommands.UserStats;
 import com.therift.theriftcore.Discord.Commands.UserCommands.VerifyCommand;
+import com.therift.theriftcore.Discord.DiscordUntils.AmountSend;
 import com.therift.theriftcore.Discord.DiscordUntils.DiscordVerify;
 import com.therift.theriftcore.Discord.DiscordUntils.Roles;
-import com.therift.theriftcore.Discord.DiscordUntils.WelcomeMessage;
 import com.therift.theriftcore.Discord.Games.DiscordCounter;
 import com.therift.theriftcore.MainCommands.SpawnCommand;
 import com.therift.theriftcore.StaffSystem.AllPlayersCommand;
@@ -40,12 +41,13 @@ public final class Main extends JavaPlugin {
     private PlayerManager playerManager;
     private DiscordListener discordListener;
     private VerifyCommand verifyCommand;
-    private WelcomeMessage welcomeMessage;
     private DiscordVerify discordVerify;
     private LuckPerms api;
     private Roles roles;
     public static Main main;
     private DiscordCounter discordCounter;
+    public AmountSend amountSend;
+    public UserStats userStats;
 
     @Override
     public void onEnable() {
@@ -93,12 +95,15 @@ public final class Main extends JavaPlugin {
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
         //Discord
+        userStats = new UserStats(this);
         discordListener = new DiscordListener(this);
         verifyCommand = new VerifyCommand(this);
         discordListener.main();
-        welcomeMessage = new WelcomeMessage(this);
         discordVerify = new DiscordVerify(this);
         discordCounter = new DiscordCounter(this);
+        amountSend = new AmountSend(this);
+
+
 
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
         if (provider != null) {
@@ -129,7 +134,6 @@ public final class Main extends JavaPlugin {
     public DiscordCounter getDiscordCounter(){return discordCounter;}
     public database getDatabase(){return database;}
     public PlayerManager getPlayerManager() {return playerManager;}
-    public WelcomeMessage getWelcomeMessage() {return  welcomeMessage;}
     public LuckPerms getApi() { return api;}
     public RiftPlayer getRiftPlayer(UUID uuid){
         return new RiftPlayer(uuid);
