@@ -60,9 +60,6 @@ public final class Main extends JavaPlugin {
         database.connect();
         main = this;
 
-
-
-
         //Commands
         getCommand("AllPlayers").setExecutor(new AllPlayersCommand(this));
         getCommand("Spawn").setExecutor(new SpawnCommand(this));
@@ -126,6 +123,7 @@ public final class Main extends JavaPlugin {
         this.getServer().getMessenger().unregisterIncomingPluginChannel(this);
 
         VerifyCommand.VerifyCode.clear();
+        amountSend.saveAmount();
 
 
     }

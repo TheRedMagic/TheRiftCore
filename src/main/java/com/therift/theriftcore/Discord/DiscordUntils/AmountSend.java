@@ -3,6 +3,7 @@ package com.therift.theriftcore.Discord.DiscordUntils;
 import com.therift.theriftcore.Discord.DiscordListener;
 import com.therift.theriftcore.Main;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.bukkit.Bukkit;
@@ -25,6 +26,7 @@ public class AmountSend {
     private HashMap<String, Integer> Amount = new HashMap<>();
 
     public void onChat(MessageReceivedEvent e, Guild guild){
+        this.guild = guild;
         if(!e.getMember().getUser().isBot()) {
             if (Amount.containsKey(e.getMember().getId())) {
                 Integer amount = Amount.get(e.getMember().getId());
@@ -46,12 +48,11 @@ public class AmountSend {
         }
     }
 
-    private void saveAmount(){
+    public void saveAmount(){
         if (!Amount.isEmpty()){
             for(String ID : Amount.keySet()){
                 Integer amount = this.Amount.get(ID);
 
-                User user = guild.getJDA().getUserById(ID);
 
                 try {
                     PreparedStatement ps = main.getDatabase().getConnection().prepareStatement("SELECT * FROM DiscordUserInfo WHERE DiscordID = ?");
@@ -63,10 +64,9 @@ public class AmountSend {
                         ps1.setString(2, ID);
                         ps1.executeUpdate();
                     }else {
-                        PreparedStatement ps2 = main.getDatabase().getConnection().prepareStatement("INSERT INTO DiscordUserInfo (DiscordID, DiscordName, MessagesSend) VALUES (?,?,?)");
+                        PreparedStatement ps2 = main.getDatabase().getConnection().prepareStatement("INSERT INTO DiscordUserInfo (DiscordID, MessagesSend) VALUES (?,?)");
                         ps2.setString(1, ID);
-                        ps2.setString(2, user.getName());
-                        ps2.setString(3, amount.toString());
+                        ps2.setString(2, amount.toString());
                         ps2.executeUpdate();
                     }
 

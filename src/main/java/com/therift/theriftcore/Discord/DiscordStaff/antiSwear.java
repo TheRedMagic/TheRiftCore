@@ -82,7 +82,7 @@ public class antiSwear {
         Message message = e.getMessage();
         User user = e.getAuthor();
         String normalMessage = e.getMessage().getContentRaw();
-        String Message_NoSpace = normalMessage.replace(" ", "").toLowerCase();
+        String Message_NoSpace = normalMessage.toLowerCase();
 
         TextChannel PunishChannel = e.getGuild().getTextChannelById("1030117474139656192");
 
