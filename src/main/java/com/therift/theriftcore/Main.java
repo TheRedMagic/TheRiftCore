@@ -117,13 +117,16 @@ public final class Main extends JavaPlugin {
             discordCounter.onDis();
         }
 
+        amountSend.saveAmount();
+        discordCounter.onSave();
+
         database.disconnect();
 
         this.getServer().getMessenger().unregisterOutgoingPluginChannel(this);
         this.getServer().getMessenger().unregisterIncomingPluginChannel(this);
 
         VerifyCommand.VerifyCode.clear();
-        amountSend.saveAmount();
+
 
 
     }

@@ -31,7 +31,7 @@ public class RiftPlayer {
     public RiftPlayer(UUID uuid){
         main = Main.main;
         if (main == null){
-            System.out.println("RiftPlayer Main Class Null");
+            Bukkit.getLogger().info("RiftPlayer | Main Class Null");
             return;
         }
         if (Bukkit.getOfflinePlayer(uuid).isOnline() && Bukkit.getOfflinePlayer(uuid) != null) {

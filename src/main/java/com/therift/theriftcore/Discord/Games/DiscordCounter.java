@@ -20,6 +20,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.regex.Pattern;
 
 public class DiscordCounter {
@@ -27,6 +28,8 @@ public class DiscordCounter {
     private int count;
     private int CountHighsource;
     private String ID = null;
+    private HashMap<String, Integer> corretCounded = new HashMap<>();
+    private HashMap<String, Integer> wrongCounded = new HashMap<>();
 
 
     public DiscordCounter(Main main) {
@@ -71,6 +74,11 @@ public class DiscordCounter {
 
 
         }, 20);
+
+        Bukkit.getScheduler().runTaskTimer(main, () -> {
+            System.out.println("Saves");
+            onSave();
+        }, 20, 20);
 
     }
 
@@ -127,13 +135,17 @@ public class DiscordCounter {
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
-
+/*
                 if (name != null) {
-                    if (name.equals(e.getAuthor().getId())) {
-                        resetCount("**send a number two times in a row**", e.getMessage());
-                        return;
+                    if (name.equals("538452411396784178")) {
+                        if (name.equals(e.getAuthor().getId())) {
+                            resetCount("**send a number two times in a row**", e.getMessage(), e.getMember().getId());
+                            return;
+                        }
                     }
                 }
+
+ */
 
 
                 if (numder == count+1){
@@ -150,13 +162,39 @@ public class DiscordCounter {
                         throw new RuntimeException(ex);
                     }
 
+                    if (corretCounded.containsKey(e.getMember().getId())){
+                        System.out.println("IN HashMap");
+                        Integer amount = corretCounded.get(e.getMember().getId());
+                        corretCounded.put(e.getMember().getId(), amount+1);
+                    }else {
+                        System.out.println("Getting for database");
+                        Integer amount = 0;
+                        try {
+                            PreparedStatement ps = main.getDatabase().getConnection().prepareStatement("SELECT CorrectlyCounded FROM DiscordUserInfo WHERE DiscordID = ?");
+                            ps.setString(1, e.getMember().getId());
+                            ResultSet rs = ps.executeQuery();
+                            while (rs.next()) {
+                                System.out.println("Found Value");
+                                amount = Integer.valueOf(rs.getString("CorrectlyCounded"));
+                            }
+                            if (amount == null){
+                                System.out.println("Amount is Null");
+                                amount = 0;
+                            }
+                            corretCounded.put(e.getMember().getId(), amount+1);
+                        } catch (SQLException ex) {
+                            throw new RuntimeException(ex);
+                        }
+
+                    }
+
                     if (count >= CountHighsource){
                         CountHighsource = count;
                         ID = e.getMember().getUser().getName();
                     }
 
                 }else {
-                    resetCount("**Wrong Number**", e.getMessage());
+                    resetCount("**Wrong Number**", e.getMessage(), e.getMember().getId());
                 }
 
             }catch (NumberFormatException e1){
@@ -165,7 +203,7 @@ public class DiscordCounter {
 
             }
     }
-    private void resetCount(String reason, Message message){
+    private void resetCount(String reason, Message message, String ID){
 
         count = 0;
 
@@ -190,6 +228,25 @@ public class DiscordCounter {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+
+        if (wrongCounded.containsKey(ID)){
+            Integer cound = wrongCounded.get(ID);
+            wrongCounded.put(ID, cound+1);
+        }else {
+            Integer amount = 0;
+            try {
+                PreparedStatement ps = main.getDatabase().getConnection().prepareStatement("SELECT WronglyCounded FROM DiscordUserInfo WHERE DiscordID = ?");
+                ps.setString(1, ID);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    amount = Integer.valueOf(rs.getString("WronglyCounded"));
+                }
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+
+            wrongCounded.put(ID, amount+1);
         }
 
     }
@@ -221,6 +278,63 @@ public class DiscordCounter {
             throw new RuntimeException(e);
         }
 
+    }
+    public void onSave(){
+        if (!wrongCounded.isEmpty()){
+            for (String ID : wrongCounded.keySet()){
+                Integer amount = wrongCounded.get(ID);
+                try {
+                    PreparedStatement ps = main.getDatabase().getConnection().prepareStatement("SELECT * FROM DiscordUserInfo WHERE DiscordID = ?");
+                    ps.setString(1, ID);
+                    ResultSet rs = ps.executeQuery();
+                    if (rs.next()){
+                        PreparedStatement ps1 = main.getDatabase().getConnection().prepareStatement("UPDATE DiscordUserInfo SET WronglyCounded = ? WHERE DiscordID = ?");
+                        ps1.setString(1, amount.toString());
+                        ps1.setString(2, ID);
+                        ps1.executeUpdate();
+                    }else {
+                        PreparedStatement ps2 = main.getDatabase().getConnection().prepareStatement("INSERT INTO DiscordUserInfo (DiscordID, WronglyCounded) VALUES (?,?)");
+                        ps2.setString(1, ID);
+                        ps2.setString(2, amount.toString());
+                        ps2.executeUpdate();
+                    }
+
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+                wrongCounded.remove(ID);
+            }
+        }
+        if (!corretCounded.isEmpty()){
+            System.out.println("Map is not empity");
+            for (String ID : corretCounded.keySet()){
+                System.out.println("looping Map");
+                Integer amount = corretCounded.get(ID);
+                try {
+                    PreparedStatement ps = main.getDatabase().getConnection().prepareStatement("SELECT * FROM DiscordUserInfo WHERE DiscordID = ?");
+                    ps.setString(1, ID);
+                    ResultSet rs = ps.executeQuery();
+                    if (rs.next()){
+                        System.out.println("a");
+                        System.out.println(ID);
+                        PreparedStatement ps1 = main.getDatabase().getConnection().prepareStatement("UPDATE DiscordUserInfo SET CorrectlyCounded = ? WHERE DiscordID = ?");
+                        ps1.setString(1, amount.toString());
+                        ps1.setString(2, ID);
+                        ps1.executeUpdate();
+                    }else {
+                        System.out.println("b");
+                        PreparedStatement ps2 = main.getDatabase().getConnection().prepareStatement("INSERT INTO DiscordUserInfo (DiscordID, CorrectlyCounded) VALUES (?,?)");
+                        ps2.setString(1, ID);
+                        ps2.setString(2, amount.toString());
+                        ps2.executeUpdate();
+                    }
+
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+                corretCounded.remove(ID);
+            }
+        }
     }
 
 }
