@@ -3,7 +3,7 @@ package com.therift.theriftcore.Discord;
 import com.therift.theriftcore.Discord.Commands.StaffCommands.*;
 import com.therift.theriftcore.Discord.Commands.UserCommands.DiscordVerifyCommand;
 import com.therift.theriftcore.Discord.Commands.UserCommands.SuggestionsCommand;
-import com.therift.theriftcore.Discord.DiscordStaff.BanCommandDisocrd;
+import com.therift.theriftcore.Discord.Commands.StaffCommands.BanCommandDisocrd;
 import com.therift.theriftcore.Discord.DiscordStaff.antiSwear;
 import com.therift.theriftcore.Discord.DiscordUntils.DiscordRules;
 import com.therift.theriftcore.Discord.DiscordUntils.DiscordVerify;
@@ -99,6 +99,7 @@ public class DiscordListener extends ListenerAdapter {
         givewayCommand.command(guild);
         punishHistory.command(guild);
         main.userStats.command(guild);
+        main.highScoreMessager.command(guild);
 
         for (String s : main.getConfig().getStringList("Bad-word")){
             badWords.add(s);
@@ -137,6 +138,7 @@ public class DiscordListener extends ListenerAdapter {
             punishHistory.punishHistory(event);
             main.getDiscordCounter().onCommand(event);
             main.userStats.onSlash(event);
+            main.highScoreMessager.onSlash(event);
         }
     }
     @Override

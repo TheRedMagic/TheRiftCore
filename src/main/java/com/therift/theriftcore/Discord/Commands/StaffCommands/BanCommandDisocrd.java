@@ -1,4 +1,4 @@
-package com.therift.theriftcore.Discord.DiscordStaff;
+package com.therift.theriftcore.Discord.Commands.StaffCommands;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;

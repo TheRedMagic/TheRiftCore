@@ -10,6 +10,7 @@ import com.therift.theriftcore.Database.DatabaseCommands.ResetDataTab;
 import com.therift.theriftcore.Database.DatabaseManager.PlayerManager;
 import com.therift.theriftcore.Database.DatabaseManager.RiftPlayer;
 import com.therift.theriftcore.Discord.*;
+import com.therift.theriftcore.Discord.Commands.UserCommands.HighScoreMessager;
 import com.therift.theriftcore.Discord.Commands.UserCommands.UserStats;
 import com.therift.theriftcore.Discord.Commands.UserCommands.VerifyCommand;
 import com.therift.theriftcore.Discord.DiscordUntils.AmountSend;
@@ -29,6 +30,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -48,7 +51,7 @@ public final class Main extends JavaPlugin {
     private DiscordCounter discordCounter;
     public AmountSend amountSend;
     public UserStats userStats;
-
+    public HighScoreMessager highScoreMessager;
     @Override
     public void onEnable() {
 
@@ -93,12 +96,14 @@ public final class Main extends JavaPlugin {
 
         //Discord
         userStats = new UserStats(this);
+        highScoreMessager = new HighScoreMessager(this);
         discordListener = new DiscordListener(this);
         verifyCommand = new VerifyCommand(this);
         discordListener.main();
         discordVerify = new DiscordVerify(this);
         discordCounter = new DiscordCounter(this);
         amountSend = new AmountSend(this);
+
 
 
 

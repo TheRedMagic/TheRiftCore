@@ -38,7 +38,7 @@ public class AmountSend {
                     ps.setString(1, e.getMember().getId());
                     ResultSet rs = ps.executeQuery();
                     while (rs.next()) {
-                        amount = Integer.valueOf(rs.getString("MessagesSend"));
+                        amount = Integer.valueOf(rs.getInt("MessagesSend"));
                     }
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
@@ -50,31 +50,32 @@ public class AmountSend {
 
     public void saveAmount(){
         if (!Amount.isEmpty()){
-            for(String ID : Amount.keySet()){
-                Integer amount = this.Amount.get(ID);
+            for(String ID : Amount.keySet()) {
+                if (guild.getMemberById(ID) != null) {
+                    Integer amount = this.Amount.get(ID);
 
+                    try {
+                        PreparedStatement ps = main.getDatabase().getConnection().prepareStatement("SELECT * FROM DiscordUserInfo WHERE DiscordID = ?");
+                        ps.setString(1, ID);
+                        ResultSet rs = ps.executeQuery();
+                        if (rs.next()) {
+                            PreparedStatement ps1 = main.getDatabase().getConnection().prepareStatement("UPDATE DiscordUserInfo SET MessagesSend = ? WHERE DiscordID = ?");
+                            ps1.setInt(1, amount);
+                            ps1.setString(2, ID);
+                            ps1.executeUpdate();
+                        } else {
+                            PreparedStatement ps2 = main.getDatabase().getConnection().prepareStatement("INSERT INTO DiscordUserInfo (DiscordID, MessagesSend) VALUES (?,?)");
+                            ps2.setString(1, ID);
+                            ps2.setInt(2, amount);
+                            ps2.executeUpdate();
+                        }
 
-                try {
-                    PreparedStatement ps = main.getDatabase().getConnection().prepareStatement("SELECT * FROM DiscordUserInfo WHERE DiscordID = ?");
-                    ps.setString(1, ID);
-                    ResultSet rs = ps.executeQuery();
-                    if (rs.next()){
-                        PreparedStatement ps1 = main.getDatabase().getConnection().prepareStatement("UPDATE DiscordUserInfo SET MessagesSend = ? WHERE DiscordID = ?");
-                        ps1.setString(1, amount.toString());
-                        ps1.setString(2, ID);
-                        ps1.executeUpdate();
-                    }else {
-                        PreparedStatement ps2 = main.getDatabase().getConnection().prepareStatement("INSERT INTO DiscordUserInfo (DiscordID, MessagesSend) VALUES (?,?)");
-                        ps2.setString(1, ID);
-                        ps2.setString(2, amount.toString());
-                        ps2.executeUpdate();
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
                     }
+                    Amount.remove(ID);
 
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
                 }
-                Amount.remove(ID);
-
             }
         }
     }
