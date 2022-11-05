@@ -75,10 +75,6 @@ public class DiscordCounter {
 
         }, 20);
 
-        Bukkit.getScheduler().runTaskTimer(main, () -> {
-            onSave();
-        }, 7220, 7200);
-
     }
 
     public void HighScoreCommand(Guild guild){
@@ -296,31 +292,31 @@ public class DiscordCounter {
                 wrongCounded.remove(ID);
             }
         }
-        if (!corretCounded.isEmpty()){
-            for (String ID : corretCounded.keySet()){
-                Integer amount = corretCounded.get(ID);
-                try {
-                    PreparedStatement ps = main.getDatabase().getConnection().prepareStatement("SELECT * FROM DiscordUserInfo WHERE DiscordID = ?");
-                    ps.setString(1, ID);
-                    ResultSet rs = ps.executeQuery();
-                    if (rs.next()){
-                        PreparedStatement ps1 = main.getDatabase().getConnection().prepareStatement("UPDATE DiscordUserInfo SET CorrectlyCounded = ? WHERE DiscordID = ?");
-                        ps1.setString(1, amount.toString());
-                        ps1.setString(2, ID);
-                        ps1.executeUpdate();
-                    }else {
-                        PreparedStatement ps2 = main.getDatabase().getConnection().prepareStatement("INSERT INTO DiscordUserInfo (DiscordID, CorrectlyCounded) VALUES (?,?)");
-                        ps2.setString(1, ID);
-                        ps2.setString(2, amount.toString());
-                        ps2.executeUpdate();
-                    }
+        if (!corretCounded.isEmpty()) {
+            for (String ID : corretCounded.keySet()) {
+                    Integer amount = corretCounded.get(ID);
+                    try {
+                        PreparedStatement ps = main.getDatabase().getConnection().prepareStatement("SELECT * FROM DiscordUserInfo WHERE DiscordID = ?");
+                        ps.setString(1, ID);
+                        ResultSet rs = ps.executeQuery();
+                        if (rs.next()) {
+                            PreparedStatement ps1 = main.getDatabase().getConnection().prepareStatement("UPDATE DiscordUserInfo SET CorrectlyCounded = ? WHERE DiscordID = ?");
+                            ps1.setString(1, amount.toString());
+                            ps1.setString(2, ID);
+                            ps1.executeUpdate();
+                        } else {
+                            PreparedStatement ps2 = main.getDatabase().getConnection().prepareStatement("INSERT INTO DiscordUserInfo (DiscordID, CorrectlyCounded) VALUES (?,?)");
+                            ps2.setString(1, ID);
+                            ps2.setString(2, amount.toString());
+                            ps2.executeUpdate();
+                        }
 
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    corretCounded.remove(ID);
                 }
-                corretCounded.remove(ID);
             }
-        }
     }
 
     public HashMap<String, Integer> getCorretCounded() {

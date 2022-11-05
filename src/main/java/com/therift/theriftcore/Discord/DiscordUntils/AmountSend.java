@@ -21,63 +21,49 @@ public class AmountSend {
         this.main = main;
         Bukkit.getScheduler().runTaskTimer(main, () -> {
             saveAmount();
-        },72000, 72000);
+        },20, 20);
     }
     private HashMap<String, Integer> Amount = new HashMap<>();
 
     public void onChat(MessageReceivedEvent e, Guild guild){
         this.guild = guild;
         if(!e.getMember().getUser().isBot()) {
-            if (Amount.containsKey(e.getMember().getId())) {
-                Integer amount = Amount.get(e.getMember().getId());
-                Amount.put(e.getMember().getId(), amount+1);
-            } else {
-                Integer amount = 0;
-                try {
-                    PreparedStatement ps = main.getDatabase().getConnection().prepareStatement("SELECT MessagesSend FROM DiscordUserInfo WHERE DiscordID = ?");
-                    ps.setString(1, e.getMember().getId());
-                    ResultSet rs = ps.executeQuery();
-                    while (rs.next()) {
-                        amount = Integer.valueOf(rs.getInt("MessagesSend"));
-                    }
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+            int amount = 0;
+            try {
+                System.out.println(e.getMember().getId() +"|"+ amount);
+                PreparedStatement ps = main.getDatabase().getConnection().prepareStatement("SELECT MessagesSend FROM DiscordUserInfo WHERE DiscordID = ?");
+                ps.setString(1, e.getMember().getId());
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                     amount = rs.getInt("MessagesSend");
                 }
-                Amount.put(e.getMember().getId(), amount + 1);
+                System.out.println(e.getMember().getId() +"|"+ amount);
+
+                PreparedStatement ps3 = main.getDatabase().getConnection().prepareStatement("SELECT * FROM DiscordUserInfo WHERE DiscordID = ?");
+                ps3.setString(1, e.getMember().getUser().getId());
+                ResultSet rs3 = ps3.executeQuery();
+                if (rs3.next()) {
+                    PreparedStatement ps1 = main.getDatabase().getConnection().prepareStatement("UPDATE DiscordUserInfo SET MessagesSend = ? WHERE DiscordID = ?");
+                    ps1.setInt(1, amount+1);
+                    ps1.setString(2, e.getMember().getUser().getId());
+                    ps1.executeUpdate();
+                } else {
+                    PreparedStatement ps2 = main.getDatabase().getConnection().prepareStatement("INSERT INTO DiscordUserInfo (DiscordID, MessagesSend) VALUES (?,?)");
+                    ps2.setString(1, e.getMember().getUser().getId());
+                    ps2.setInt(2, amount+1);
+                    ps2.executeUpdate();
+                }
+
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
             }
+
+
         }
     }
 
     public void saveAmount(){
-        if (!Amount.isEmpty()){
-            for(String ID : Amount.keySet()) {
-                if (guild.getMemberById(ID) != null) {
-                    Integer amount = this.Amount.get(ID);
-
-                    try {
-                        PreparedStatement ps = main.getDatabase().getConnection().prepareStatement("SELECT * FROM DiscordUserInfo WHERE DiscordID = ?");
-                        ps.setString(1, ID);
-                        ResultSet rs = ps.executeQuery();
-                        if (rs.next()) {
-                            PreparedStatement ps1 = main.getDatabase().getConnection().prepareStatement("UPDATE DiscordUserInfo SET MessagesSend = ? WHERE DiscordID = ?");
-                            ps1.setInt(1, amount);
-                            ps1.setString(2, ID);
-                            ps1.executeUpdate();
-                        } else {
-                            PreparedStatement ps2 = main.getDatabase().getConnection().prepareStatement("INSERT INTO DiscordUserInfo (DiscordID, MessagesSend) VALUES (?,?)");
-                            ps2.setString(1, ID);
-                            ps2.setInt(2, amount);
-                            ps2.executeUpdate();
-                        }
-
-                    } catch (SQLException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                    Amount.remove(ID);
-
-                }
-            }
-        }
+        main.getDiscordCounter().onSave();
     }
 
     public HashMap<String, Integer> getAmount() {

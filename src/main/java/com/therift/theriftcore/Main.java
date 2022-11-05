@@ -123,7 +123,7 @@ public final class Main extends JavaPlugin {
         }
 
         amountSend.saveAmount();
-        discordCounter.onSave();
+
 
         database.disconnect();
 

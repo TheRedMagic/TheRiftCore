@@ -40,14 +40,11 @@ public class HighScoreMessager {
 
                 while (rs.next() && times != 11){
 
-                    System.out.println("Looping");
-
                     String ID = rs.getString("DiscordID");
                     Integer Amount = rs.getInt("MessagesSend");
                     Integer finalTimes = times;
 
                     User user = DiscordListener.jda.retrieveUserById(ID).complete();
-                    System.out.println(ID + "|" + Amount + "|" + user.getName());
 
                     embedBuilder.getDescriptionBuilder().append("\n" + finalTimes +". "  + user.getName() + " : ``" + Amount + "``");
 
