@@ -1,31 +1,24 @@
 package com.therift.theriftcore.Discord.Commands.StaffCommands;
 
-import com.therift.theriftcore.Main;
+import com.therift.theriftcore.TheRiftCore;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.emoji.CustomEmoji;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
-import net.dv8tion.jda.api.interactions.components.ActionRow;
-import net.dv8tion.jda.api.interactions.components.Component;
-import net.dv8tion.jda.api.interactions.components.ItemComponent;
-import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import org.bukkit.Bukkit;
 
 import java.awt.*;
-import java.time.Instant;
 
 public class PollCommand {
 
-    private Main main;
+    private TheRiftCore main;
 
-    public PollCommand(Main main){
+    public PollCommand(TheRiftCore main){
         this.main = main;
     }
 

@@ -1,8 +1,8 @@
 package com.therift.theriftcore.Core;
 
+import com.therift.theriftcore.TheRiftCore;
 import com.therift.theriftcore.Discord.DiscordListener;
 import com.therift.theriftcore.Discord.Commands.UserCommands.VerifyCommand;
-import com.therift.theriftcore.Main;
 import com.therift.theriftcore.StaffSystem.StaffMenu.ReportSystem.ReportManager;
 import com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem.Punish.Commands.ChatMuteCommand;
 import com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem.StaffMode.StaffManager;
@@ -21,11 +21,11 @@ import java.util.HashMap;
 
 public class CoreListener implements Listener{
 
-    private static Main main;
+    private static TheRiftCore main;
     private GlobalChat globalChat;
     private HashMap<Player, String> rank = new HashMap<>();
     private TagTab tagTab;
-    public CoreListener(Main main){
+    public CoreListener(TheRiftCore main){
         this.main = main;
         globalChat = new GlobalChat(main);
         tagTab = new TagTab(main);

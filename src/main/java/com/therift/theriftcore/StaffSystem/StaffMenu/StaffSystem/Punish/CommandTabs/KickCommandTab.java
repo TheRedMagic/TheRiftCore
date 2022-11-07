@@ -1,6 +1,6 @@
 package com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem.Punish.CommandTabs;
 
-import com.therift.theriftcore.Main;
+import com.therift.theriftcore.TheRiftCore;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class KickCommandTab implements TabCompleter {
-    private Main main;
-    public KickCommandTab(Main main){
+    private TheRiftCore main;
+    public KickCommandTab(TheRiftCore main){
         this.main = main;
     }
     @Nullable

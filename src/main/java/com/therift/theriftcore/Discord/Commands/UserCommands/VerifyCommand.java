@@ -1,6 +1,6 @@
 package com.therift.theriftcore.Discord.Commands.UserCommands;
 
-import com.therift.theriftcore.Main;
+import com.therift.theriftcore.TheRiftCore;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -16,9 +16,9 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class VerifyCommand implements CommandExecutor {
-    private Main main;
+    private TheRiftCore main;
 
-    public VerifyCommand(Main main){
+    public VerifyCommand(TheRiftCore main){
         this.main = main;
     }
 

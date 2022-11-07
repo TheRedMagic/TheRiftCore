@@ -2,7 +2,7 @@ package com.therift.theriftcore.Database.DatabaseCommands;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import com.therift.theriftcore.Main;
+import com.therift.theriftcore.TheRiftCore;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -17,8 +17,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class ResetDataCommand implements CommandExecutor, PluginMessageListener {
-    private Main main;
-    public ResetDataCommand(Main main){
+    private TheRiftCore main;
+    public ResetDataCommand(TheRiftCore main){
         this.main = main;
     }
 

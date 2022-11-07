@@ -1,6 +1,6 @@
 package com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem.Punish.Commands;
 
-import com.therift.theriftcore.Main;
+import com.therift.theriftcore.TheRiftCore;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -10,8 +10,8 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class pardonCommand implements CommandExecutor {
-    private Main main;
-    public pardonCommand(Main main){
+    private TheRiftCore main;
+    public pardonCommand(TheRiftCore main){
         this.main = main;
     }
     @Override

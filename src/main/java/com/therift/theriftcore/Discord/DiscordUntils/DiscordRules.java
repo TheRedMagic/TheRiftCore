@@ -1,17 +1,15 @@
 package com.therift.theriftcore.Discord.DiscordUntils;
 
-import com.therift.theriftcore.Main;
+import com.therift.theriftcore.TheRiftCore;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.interactions.components.ActionRow;
-import net.dv8tion.jda.api.interactions.components.buttons.Button;
 
 import java.awt.*;
 
 public class DiscordRules {
-    private Main main;
-    public DiscordRules(Main main){
+    private TheRiftCore main;
+    public DiscordRules(TheRiftCore main){
         this.main = main;
     }
     public void Rules(Guild guild){

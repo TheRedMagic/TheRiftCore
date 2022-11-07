@@ -1,6 +1,6 @@
 package com.therift.theriftcore.Discord.Commands.UserCommands;
 
-import com.therift.theriftcore.Main;
+import com.therift.theriftcore.TheRiftCore;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -14,8 +14,8 @@ import java.util.List;
 
 public class SuggestionsCommand {
 
-    private Main main;
-    public SuggestionsCommand(Main main){
+    private TheRiftCore main;
+    public SuggestionsCommand(TheRiftCore main){
         this.main = main;
     }
 

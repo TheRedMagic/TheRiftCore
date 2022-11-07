@@ -2,8 +2,7 @@ package com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem.Punish.Command
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import com.mysql.cj.x.protobuf.MysqlxDatatypes;
-import com.therift.theriftcore.Main;
+import com.therift.theriftcore.TheRiftCore;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -14,9 +13,9 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class BanCommand implements CommandExecutor {
-    private Main main;
+    private TheRiftCore main;
 
-    public BanCommand(Main main){
+    public BanCommand(TheRiftCore main){
         this.main = main;
     }
 

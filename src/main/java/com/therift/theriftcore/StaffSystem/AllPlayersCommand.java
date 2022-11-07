@@ -1,6 +1,6 @@
 package com.therift.theriftcore.StaffSystem;
 
-import com.therift.theriftcore.Main;
+import com.therift.theriftcore.TheRiftCore;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -13,8 +13,8 @@ import java.sql.SQLException;
 import java.util.UUID;
 
 public class AllPlayersCommand implements CommandExecutor {
-    private Main main;
-    public AllPlayersCommand(Main main){
+    private TheRiftCore main;
+    public AllPlayersCommand(TheRiftCore main){
         this.main = main;
     }
     private ResultSet OnlinePlayers;

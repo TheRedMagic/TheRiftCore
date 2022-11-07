@@ -2,8 +2,7 @@ package com.therift.theriftcore.MainCommands;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import com.therift.theriftcore.Main;
-import org.bukkit.Bukkit;
+import com.therift.theriftcore.TheRiftCore;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -12,8 +11,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class SpawnCommand implements CommandExecutor{
-    private Main main;
-    public SpawnCommand(Main main){
+    private TheRiftCore main;
+    public SpawnCommand(TheRiftCore main){
         this.main = main;
     }
 

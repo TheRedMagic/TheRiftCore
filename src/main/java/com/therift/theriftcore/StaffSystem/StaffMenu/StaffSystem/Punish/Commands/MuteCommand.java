@@ -2,7 +2,7 @@ package com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem.Punish.Command
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import com.therift.theriftcore.Main;
+import com.therift.theriftcore.TheRiftCore;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -14,8 +14,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class MuteCommand implements CommandExecutor {
 
-    private Main main;
-    public MuteCommand(Main main){
+    private TheRiftCore main;
+    public MuteCommand(TheRiftCore main){
         this.main = main;
     }
 

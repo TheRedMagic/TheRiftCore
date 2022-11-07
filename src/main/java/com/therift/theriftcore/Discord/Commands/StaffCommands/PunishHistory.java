@@ -1,6 +1,6 @@
 package com.therift.theriftcore.Discord.Commands.StaffCommands;
 
-import com.therift.theriftcore.Main;
+import com.therift.theriftcore.TheRiftCore;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
@@ -12,13 +12,11 @@ import org.bukkit.Bukkit;
 import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class PunishHistory {
-    private Main main;
+    private TheRiftCore main;
 
-    public PunishHistory(Main main){
+    public PunishHistory(TheRiftCore main){
         this.main = main;
     }
 

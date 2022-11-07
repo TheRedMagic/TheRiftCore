@@ -1,6 +1,6 @@
 package com.therift.theriftcore.Discord.DiscordUntils;
 
-import com.therift.theriftcore.Main;
+import com.therift.theriftcore.TheRiftCore;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -12,8 +12,8 @@ import org.bukkit.Bukkit;
 import java.awt.*;
 
 public class Roles {
-    private Main main;
-    public Roles(Main main){
+    private TheRiftCore main;
+    public Roles(TheRiftCore main){
         this.main = main;
     }
 

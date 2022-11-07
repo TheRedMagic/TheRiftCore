@@ -1,30 +1,24 @@
 package com.therift.theriftcore.Discord.Games;
 
-import com.google.gson.Gson;
 import com.therift.theriftcore.Discord.DiscordListener;
-import com.therift.theriftcore.Main;
+import com.therift.theriftcore.TheRiftCore;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.bukkit.Bukkit;
 
 import java.awt.*;
-import java.io.*;
-import java.lang.reflect.Type;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.regex.Pattern;
 
 public class DiscordCounter {
-    private Main main;
+    private TheRiftCore main;
     private int count;
     private int CountHighsource;
     private String ID = null;
@@ -32,7 +26,7 @@ public class DiscordCounter {
     private HashMap<String, Integer> wrongCounded = new HashMap<>();
 
 
-    public DiscordCounter(Main main) {
+    public DiscordCounter(TheRiftCore main) {
         this.main = main;
         Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
             try {

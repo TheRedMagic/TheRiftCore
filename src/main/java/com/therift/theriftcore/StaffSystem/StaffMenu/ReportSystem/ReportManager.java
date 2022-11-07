@@ -2,9 +2,8 @@ package com.therift.theriftcore.StaffSystem.StaffMenu.ReportSystem;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import com.sun.jna.platform.win32.WinDef;
+import com.therift.theriftcore.TheRiftCore;
 import com.therift.theriftcore.Discord.DiscordListener;
-import com.therift.theriftcore.Main;
 import com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem.PageUtil;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
@@ -15,7 +14,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.inventory.Inventory;
@@ -23,23 +21,21 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import javax.swing.text.StyledEditorKit;
 import java.awt.*;
-import java.io.BufferedReader;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.List;
 
 public class ReportManager {
-    private Main main;
+    private TheRiftCore main;
     private List<String> inReport = new ArrayList<>();
     private Boolean inReasonB = false;
     private Boolean inReasonP = false;
     private HashMap<Player, String> reason = new HashMap<>();
     private HashMap<Player, OfflinePlayer> target = new HashMap<>();
     public static Boolean inReportReason = false;
-    public ReportManager(Main main){
+    public ReportManager(TheRiftCore main){
         this.main = main;
     }
 
@@ -209,7 +205,7 @@ public class ReportManager {
         if (inReport.contains(e.getWhoClicked().getUniqueId().toString())){
             Player player = (Player) e.getWhoClicked();
             e.setCancelled(true);
-            //Main GUI
+            //Core GUI
             if (e.getView().getTitle().equals(ChatColor.BLUE + "Report") && e.getCurrentItem() != null){
                 switch (e.getCurrentItem().getType()){
                     case PLAYER_HEAD:

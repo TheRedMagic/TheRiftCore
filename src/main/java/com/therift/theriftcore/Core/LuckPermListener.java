@@ -1,19 +1,14 @@
 package com.therift.theriftcore.Core;
 
-import com.therift.theriftcore.Main;
+import com.therift.theriftcore.TheRiftCore;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.event.EventBus;
 import net.luckperms.api.event.node.NodeAddEvent;
 import net.luckperms.api.event.node.NodeRemoveEvent;
-import net.luckperms.api.event.user.UserLoadEvent;
-import net.luckperms.api.event.user.track.UserDemoteEvent;
-import net.luckperms.api.event.user.track.UserPromoteEvent;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 
 public class LuckPermListener {
-    private Main main;
-    public LuckPermListener(Main main, LuckPerms luckPerms){
+    private TheRiftCore main;
+    public LuckPermListener(TheRiftCore main, LuckPerms luckPerms){
         this.main = main;
 
         EventBus eventBus = luckPerms.getEventBus();

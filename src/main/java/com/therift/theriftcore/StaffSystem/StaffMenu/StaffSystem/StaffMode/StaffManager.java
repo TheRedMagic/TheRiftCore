@@ -2,9 +2,8 @@ package com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem.StaffMode;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import com.mojang.util.UUIDTypeAdapter;
 import com.therift.theriftcore.Core.TagTab;
-import com.therift.theriftcore.Main;
+import com.therift.theriftcore.TheRiftCore;
 import com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem.PageUtil;
 import net.luckperms.api.model.group.Group;
 import net.luckperms.api.model.user.User;
@@ -27,7 +26,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class StaffManager {
-    private Main main;
+    private TheRiftCore main;
     private List<UUID> inMenu = new ArrayList<>();
     private List<UUID> inMenuList = new ArrayList<>();
     public static Boolean vanish = false;
@@ -45,7 +44,7 @@ public class StaffManager {
 
 
 
-    public StaffManager(Main main){
+    public StaffManager(TheRiftCore main){
         this.main = main;
     }
     public void openStaffMenu(Player player){

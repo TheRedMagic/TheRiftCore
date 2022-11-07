@@ -1,14 +1,12 @@
 package com.therift.theriftcore.Core;
 
-import com.therift.theriftcore.Main;
+import com.therift.theriftcore.TheRiftCore;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.sql.BatchUpdateException;
-
 public class Tab {
-    private Main main;
-    public Tab(Main main){
+    private TheRiftCore main;
+    public Tab(TheRiftCore main){
         this.main = main;
     }
 

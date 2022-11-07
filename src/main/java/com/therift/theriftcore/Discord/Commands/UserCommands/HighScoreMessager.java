@@ -1,10 +1,9 @@
 package com.therift.theriftcore.Discord.Commands.UserCommands;
 
+import com.therift.theriftcore.TheRiftCore;
 import com.therift.theriftcore.Discord.DiscordListener;
-import com.therift.theriftcore.Main;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
@@ -12,14 +11,12 @@ import java.awt.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class HighScoreMessager {
 
-    private Main main;
+    private TheRiftCore main;
 
-    public HighScoreMessager(Main main){
+    public HighScoreMessager(TheRiftCore main){
         this.main = main;
     }
 

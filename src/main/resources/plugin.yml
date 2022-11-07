@@ -1,6 +1,6 @@
 name: TheRiftCore
 version: '${project.version}'
-main: com.therift.theriftcore.Main
+main: com.therift.theriftcore.TheRiftCore
 api-version: 1.19
 authors: [ TheRiftt ]
 description: The Core Plugin for the RiftNetWork

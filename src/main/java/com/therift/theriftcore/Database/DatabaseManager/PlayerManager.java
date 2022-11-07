@@ -1,11 +1,9 @@
 package com.therift.theriftcore.Database.DatabaseManager;
 
-import com.mojang.util.UUIDTypeAdapter;
+import com.therift.theriftcore.TheRiftCore;
 import com.therift.theriftcore.Discord.DiscordListener;
-import com.therift.theriftcore.Main;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
-import org.bukkit.Bukkit;
 
 import java.awt.*;
 import java.sql.PreparedStatement;
@@ -16,8 +14,8 @@ import java.util.List;
 
 public class PlayerManager {
 
-    private Main main;
-    public PlayerManager(Main main){
+    private TheRiftCore main;
+    public PlayerManager(TheRiftCore main){
         this.main = main;
     }
 

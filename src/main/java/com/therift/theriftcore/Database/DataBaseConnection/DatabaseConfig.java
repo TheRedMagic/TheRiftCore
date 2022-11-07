@@ -1,14 +1,10 @@
 package com.therift.theriftcore.Database.DataBaseConnection;
 
-import com.google.common.io.ByteStreams;
-import com.therift.theriftcore.Main;
+import com.therift.theriftcore.TheRiftCore;
 import org.bukkit.configuration.Configuration;
-import org.bukkit.configuration.file.YamlConfiguration;
-
-import java.io.*;
 
 public class DatabaseConfig {
-    private Main main;
+    private TheRiftCore main;
     private Configuration configuration;
     private String Host;
     private String Username;
@@ -16,7 +12,7 @@ public class DatabaseConfig {
     private String Port;
 
 
-    public DatabaseConfig(Main main) {
+    public DatabaseConfig(TheRiftCore main) {
         this.main = main;
 
         main.getConfig().options().copyDefaults();

@@ -3,24 +3,21 @@ package com.therift.theriftcore.Core;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import com.therift.theriftcore.Main;
+import com.therift.theriftcore.TheRiftCore;
 import net.luckperms.api.model.user.User;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.plugin.messaging.PluginMessageListener;
-import org.eclipse.aether.util.listener.ChainedTransferListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 
 public class GlobalChat implements PluginMessageListener  {
 
-    private Main main;
+    private TheRiftCore main;
 
-    public GlobalChat(Main main){
+    public GlobalChat(TheRiftCore main){
         this.main = main;
 
     }

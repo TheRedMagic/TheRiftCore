@@ -2,8 +2,8 @@ package com.therift.theriftcore.Database.DatabaseManager;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
+import com.therift.theriftcore.TheRiftCore;
 import com.therift.theriftcore.Discord.DiscordListener;
-import com.therift.theriftcore.Main;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -14,24 +14,22 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.util.Vector;
 
-import java.awt.*;
 import java.awt.Color;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.UUID;
 
 public class RiftPlayer {
-    private Main main;
+    private TheRiftCore main;
     private UUID uuid;
     private String name;
     private OfflinePlayer player;
 
     public RiftPlayer(UUID uuid){
-        main = Main.main;
+        main = TheRiftCore.main;
         if (main == null){
-            Bukkit.getLogger().info("RiftPlayer | Main Class Null");
+            Bukkit.getLogger().info("RiftPlayer | Core Class Null");
             return;
         }
         if (Bukkit.getOfflinePlayer(uuid).isOnline() && Bukkit.getOfflinePlayer(uuid) != null) {

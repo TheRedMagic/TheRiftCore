@@ -1,14 +1,14 @@
 package com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem.StaffMode;
 
-import com.therift.theriftcore.Main;
+import com.therift.theriftcore.TheRiftCore;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 
 public class StaffListener implements Listener {
-    private Main main;
-    public StaffListener(Main main){
+    private TheRiftCore main;
+    public StaffListener(TheRiftCore main){
         this.main = main;
     }
 

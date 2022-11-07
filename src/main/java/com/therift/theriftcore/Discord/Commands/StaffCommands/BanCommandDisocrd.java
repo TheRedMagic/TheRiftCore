@@ -1,5 +1,6 @@
 package com.therift.theriftcore.Discord.Commands.StaffCommands;
 
+import com.therift.theriftcore.TheRiftCore;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
@@ -13,11 +14,13 @@ import org.bukkit.Bukkit;
 import java.awt.*;
 
 public class BanCommandDisocrd {
-    public void command(Guild guild){
+    private TheRiftCore main;
+    public void command(Guild guild, TheRiftCore main){
+        this.main = main;
         guild.upsertCommand("ban", "Bans user for the discord")
                 .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.BAN_MEMBERS))
-                .addOption(OptionType.USER, "user", "User you what to ban")
-                .addOption(OptionType.STRING, "reason", "Reason for ban")
+                .addOption(OptionType.USER, "user", "User you what to ban", true)
+                .addOption(OptionType.STRING, "reason", "Reason for ban", true)
                 .queue();
     }
 
@@ -29,11 +32,13 @@ public class BanCommandDisocrd {
 
                 e.getGuild().ban(user, 0, reason).queue();
 
+                main.getPlayerManager().addDiscordPunish(user.getId(), user.getName(), "Mute", e.getOption("reason").getAsString());
+
 
                 TextChannel textChannel1 = e.getGuild().getTextChannelById("1012486403462012938");
                 EmbedBuilder embedBuilder1 = new EmbedBuilder().setColor(Color.green).setAuthor("TheRift")
                         .setTitle("Discord Ban")
-                        .setDescription(user.getName() + " has been banned form the discord");
+                        .setDescription(user.getName() + " has been banned form the discord\nReason : " + reason);
                 textChannel1.sendMessageEmbeds(embedBuilder1.build()).queue();
 
                 e.deferReply(true).queue();
@@ -44,7 +49,7 @@ public class BanCommandDisocrd {
 
                 EmbedBuilder builder = new EmbedBuilder().setColor(Color.RED).setAuthor("TheRift")
                         .setTitle("Banned")
-                        .setDescription("You are banned by " + user.getName());
+                        .setDescription("You are banned by " + user.getName() + "\nReason : " + reason);
 
                 user.openPrivateChannel().complete()
                         .sendMessageEmbeds(builder.build()).queue();

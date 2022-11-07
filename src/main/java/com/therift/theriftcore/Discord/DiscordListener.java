@@ -8,7 +8,7 @@ import com.therift.theriftcore.Discord.DiscordStaff.antiSwear;
 import com.therift.theriftcore.Discord.DiscordUntils.DiscordRules;
 import com.therift.theriftcore.Discord.DiscordUntils.DiscordVerify;
 import com.therift.theriftcore.Discord.DiscordUntils.Roles;
-import com.therift.theriftcore.Main;
+import com.therift.theriftcore.TheRiftCore;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DiscordListener extends ListenerAdapter {
-    private Main main;
+    private TheRiftCore main;
     public static JDA jda;
     private DiscordVerifyCommand discordVerifyCommand;
     private DiscordVerify discordVerify;
@@ -48,7 +48,7 @@ public class DiscordListener extends ListenerAdapter {
     private BanCommandDisocrd banCommandDisocrd;
     private GivewayCommand givewayCommand;
     private PunishHistory punishHistory;
-    public DiscordListener(Main main){
+    public DiscordListener(TheRiftCore main){
         this.main = main;
         discordVerify = new DiscordVerify(main);
         discordVerifyCommand = new DiscordVerifyCommand(main);
@@ -93,9 +93,9 @@ public class DiscordListener extends ListenerAdapter {
         roles.channelRoles(guild);
         pollCommand.command(guild);
         suggestionsCommand.command(guild);
-        muteCommandDicsord.command(guild);
-        kickCommandDiscord.command(guild);
-        banCommandDisocrd.command(guild);
+        muteCommandDicsord.command(guild, main);
+        kickCommandDiscord.command(guild, main);
+        banCommandDisocrd.command(guild, main);
         givewayCommand.command(guild);
         punishHistory.command(guild);
         main.userStats.command(guild);

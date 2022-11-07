@@ -1,19 +1,17 @@
 package com.therift.theriftcore.Database.DataBaseConnection;
 
-import com.therift.theriftcore.Main;
+import com.therift.theriftcore.TheRiftCore;
 import org.bukkit.Bukkit;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Set;
 
 public class database {
 
-    private Main main;
+    private TheRiftCore main;
     private Connection connection;
-    public database(Main main){
+    public database(TheRiftCore main){
         this.main = main;
     }
 

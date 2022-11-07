@@ -1,6 +1,6 @@
 package com.therift.theriftcore.Discord.Commands.UserCommands;
 
-import com.therift.theriftcore.Main;
+import com.therift.theriftcore.TheRiftCore;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -14,8 +14,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserStats {
-    Main main;
-    public UserStats(Main main){
+    TheRiftCore main;
+    public UserStats(TheRiftCore main){
         this.main = main;
     }
     public void command(Guild guild){

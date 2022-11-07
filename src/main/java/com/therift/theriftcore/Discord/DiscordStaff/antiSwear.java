@@ -1,6 +1,6 @@
 package com.therift.theriftcore.Discord.DiscordStaff;
 
-import com.therift.theriftcore.Main;
+import com.therift.theriftcore.TheRiftCore;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
@@ -11,16 +11,13 @@ import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
-import java.sql.SQLOutput;
 import java.util.Calendar;
-import java.util.List;
-import java.util.Locale;
 
 public class antiSwear {
-    private Main main;
+    private TheRiftCore main;
     private boolean deleteword = false;
 
-    public antiSwear(Main main){
+    public antiSwear(TheRiftCore main){
         this.main = main;
     }
     public void antiSwear(@NotNull MessageReceivedEvent e){

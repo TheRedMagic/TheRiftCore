@@ -1,6 +1,6 @@
 package com.therift.theriftcore.Discord.Commands.UserCommands;
 
-import com.therift.theriftcore.Main;
+import com.therift.theriftcore.TheRiftCore;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -23,8 +23,8 @@ import java.util.List;
 public class DiscordVerifyCommand {
 
 
-    private Main main;
-    public DiscordVerifyCommand(Main main){
+    private TheRiftCore main;
+    public DiscordVerifyCommand(TheRiftCore main){
         this.main = main;
     }
     private HashMap<String, String> stringHashMap = new HashMap<>();

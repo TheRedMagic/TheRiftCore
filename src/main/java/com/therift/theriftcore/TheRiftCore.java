@@ -30,12 +30,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 
-public final class Main extends JavaPlugin {
+public final class TheRiftCore extends JavaPlugin {
 
     //Calls
     private DatabaseConfig databaseConfig;
@@ -47,7 +45,7 @@ public final class Main extends JavaPlugin {
     private DiscordVerify discordVerify;
     private LuckPerms api;
     private Roles roles;
-    public static Main main;
+    public static TheRiftCore main;
     private DiscordCounter discordCounter;
     public AmountSend amountSend;
     public UserStats userStats;

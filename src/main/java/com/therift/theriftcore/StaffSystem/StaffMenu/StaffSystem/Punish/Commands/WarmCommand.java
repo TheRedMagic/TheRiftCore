@@ -2,7 +2,7 @@ package com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem.Punish.Command
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import com.therift.theriftcore.Main;
+import com.therift.theriftcore.TheRiftCore;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -13,8 +13,8 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class WarmCommand implements CommandExecutor {
-    private Main main;
-    public WarmCommand(Main main){
+    private TheRiftCore main;
+    public WarmCommand(TheRiftCore main){
         this.main = main;
     }
     @Override

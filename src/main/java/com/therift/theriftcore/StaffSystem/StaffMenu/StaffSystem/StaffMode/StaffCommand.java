@@ -1,6 +1,6 @@
 package com.therift.theriftcore.StaffSystem.StaffMenu.StaffSystem.StaffMode;
 
-import com.therift.theriftcore.Main;
+import com.therift.theriftcore.TheRiftCore;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class StaffCommand implements CommandExecutor {
-    private Main main;
-    public StaffCommand(Main main){
+    private TheRiftCore main;
+    public StaffCommand(TheRiftCore main){
         this.main = main;
         staffManager = new StaffManager(main);
     }

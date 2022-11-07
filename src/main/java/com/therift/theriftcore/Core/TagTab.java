@@ -1,6 +1,6 @@
 package com.therift.theriftcore.Core;
 
-import com.therift.theriftcore.Main;
+import com.therift.theriftcore.TheRiftCore;
 import net.luckperms.api.model.group.Group;
 import net.luckperms.api.model.user.User;
 import org.bukkit.Bukkit;
@@ -13,9 +13,9 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class TagTab {
-    private static Main main;
+    private static TheRiftCore main;
     public static HashMap<UUID, ArmorStand> tabs = new HashMap<UUID, ArmorStand>();
-    public TagTab(Main main){
+    public TagTab(TheRiftCore main){
         this.main = main;
     }
 
