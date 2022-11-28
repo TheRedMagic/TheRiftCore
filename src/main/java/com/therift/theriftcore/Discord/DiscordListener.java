@@ -4,6 +4,7 @@ import com.therift.theriftcore.Discord.Commands.StaffCommands.*;
 import com.therift.theriftcore.Discord.Commands.UserCommands.DiscordVerifyCommand;
 import com.therift.theriftcore.Discord.Commands.UserCommands.SuggestionsCommand;
 import com.therift.theriftcore.Discord.Commands.StaffCommands.BanCommandDisocrd;
+import com.therift.theriftcore.Discord.DiscordStaff.AntiSpam;
 import com.therift.theriftcore.Discord.DiscordStaff.antiSwear;
 import com.therift.theriftcore.Discord.DiscordUntils.DiscordRules;
 import com.therift.theriftcore.Discord.DiscordUntils.DiscordVerify;
@@ -17,8 +18,10 @@ import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.SelectMenuInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.components.selections.SelectMenuInteraction;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
@@ -29,7 +32,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DiscordListener extends ListenerAdapter {
+public class DiscordListener extends ListenerAdapter{
     private TheRiftCore main;
     public static JDA jda;
     private DiscordVerifyCommand discordVerifyCommand;
@@ -48,6 +51,7 @@ public class DiscordListener extends ListenerAdapter {
     private BanCommandDisocrd banCommandDisocrd;
     private GivewayCommand givewayCommand;
     private PunishHistory punishHistory;
+    private AntiSpam antiSpam;
     public DiscordListener(TheRiftCore main){
         this.main = main;
         discordVerify = new DiscordVerify(main);
@@ -62,6 +66,7 @@ public class DiscordListener extends ListenerAdapter {
         banCommandDisocrd = new BanCommandDisocrd();
         givewayCommand = new GivewayCommand();
         punishHistory = new PunishHistory(main);
+        antiSpam = new AntiSpam(main);
     }
     public void main()
     {
@@ -90,7 +95,6 @@ public class DiscordListener extends ListenerAdapter {
         discordVerifyCommand.VerifyReadyCommand(guild);
         discordVerify.Verify(guild);
         discordRules.Rules(guild);
-        roles.channelRoles(guild);
         pollCommand.command(guild);
         suggestionsCommand.command(guild);
         muteCommandDicsord.command(guild, main);
@@ -100,6 +104,7 @@ public class DiscordListener extends ListenerAdapter {
         punishHistory.command(guild);
         main.userStats.command(guild);
         main.highScoreMessager.command(guild);
+        roles.onCommand(guild);
 
         for (String s : main.getConfig().getStringList("Bad-word")){
             badWords.add(s);
@@ -122,6 +127,7 @@ public class DiscordListener extends ListenerAdapter {
             }
 
             antiSwear.antiSwear(e);
+            antiSpam.onSend(e);
 
         }
     }
@@ -139,6 +145,7 @@ public class DiscordListener extends ListenerAdapter {
             main.getDiscordCounter().onCommand(event);
             main.userStats.onSlash(event);
             main.highScoreMessager.onSlash(event);
+            roles.channelRoles(event);
         }
     }
     @Override
@@ -162,6 +169,9 @@ public class DiscordListener extends ListenerAdapter {
             textChannel.sendMessageEmbeds(embedBuilder.build()).queue();
         }
     }
-
-    //TEst
+    @Override
+    public void onSelectMenuInteraction(SelectMenuInteractionEvent e){
+        System.out.println("a");
+        roles.onSelectionMenu(e);
+    }
 }

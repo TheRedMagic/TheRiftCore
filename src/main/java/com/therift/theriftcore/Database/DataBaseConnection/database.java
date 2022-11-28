@@ -22,7 +22,7 @@ public class database {
                 connection = DriverManager.getConnection("jdbc:mysql://" + main.getDatabaseConfig().getHost() + ":" + main.getDatabaseConfig().getPort() + "/" + main.getDatabaseConfig().getUsername() + "?autoReconnect=true",
                         main.getDatabaseConfig().getUsername(),
                         main.getDatabaseConfig().getPassword());
-                connection.prepareStatement("SET SESSION idle_transaction_timeout=0;");
+                connection.prepareStatement("SET SESSION idle_transaction_timeout='0';");
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
